@@ -67,6 +67,18 @@ public class HackathonController {
                 newPlan.setPlanName(planName.trim());
                 //newPlan.setPlanName(parsedText);
 
+
+                //Hardcoding Brand over generic for now as value doesn't exist in old files
+                newPlan.setBrandOverGeneric("NO");
+                //Hardcoding PBM for now as value doesn't exist in pdf
+                newPlan.setPbm("NULL");
+
+                //Hardcoding Formulary_Description for now as value doesn't exist in pdf
+                newPlan.setFormularyDescription("STANDARD");
+
+                //Hardcoding Network_Description for now as value doesn't exist in pdf
+                newPlan.setNetworkDescription("STANDARD");
+
                 split = remainingText.split("What is the overall \n" + "deductible?");
                 remainingText = split[1];
 
@@ -104,9 +116,14 @@ public class HackathonController {
                     newPlan.setEmbedded(true);
                     newPlan.setEmbeddedDeductibleAmount(indvDeducAmt);
                     newPlan.setEmbeddedOutOfPocketAmount(oopIndvAmt);
+                    newPlan.setMaxFamilyDeductibleEmbedded("YES");
+                    newPlan.setMaxFamilyOopEmbedded("YES");
+
                 } else {
                     newPlan.setEmbedded(false);
                 }
+
+
 
                 //newPlan.setPlanName(remainingText);
 
