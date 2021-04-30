@@ -5,6 +5,12 @@ import java.util.Objects;
 public class PlanDetails {
     private String planName;
     private String planId;
+    private String brandOverGeneric;
+    private String pbm;
+    private String formularyDescription;
+    private String networkDescription;
+    private String maxFamilyDeductibleEmbedded;
+    private String maxFamilyOopEmbedded;
     private String coverageBeginDate;
     private String coverageEndDate;
     private Integer individualDeductibleAmount;
@@ -33,6 +39,51 @@ public class PlanDetails {
     public void setPlanId(String planId) {
         this.planId = planId;
     }
+
+    public String getBrandOverGeneric() {
+        return brandOverGeneric;
+    }
+    public void setBrandOverGeneric(String brandOverGeneric) {
+        this.brandOverGeneric = brandOverGeneric;
+    }
+
+
+    public String getPbm() {
+        return pbm;
+    }
+    public void setPbm(String pbm) {
+        this.pbm = pbm;
+    }
+
+    public String getMaxFamilyDeductibleEmbedded() {
+        return maxFamilyDeductibleEmbedded;
+    }
+    public void setMaxFamilyDeductibleEmbedded(String maxFamilyDeductibleEmbedded) {
+        this.maxFamilyDeductibleEmbedded = maxFamilyDeductibleEmbedded;
+    }
+
+    public String getMaxFamilyOopEmbedded() {
+        return maxFamilyOopEmbedded;
+    }
+    public void setMaxFamilyOopEmbedded(String maxFamilyOopEmbedded) {
+        this.maxFamilyOopEmbedded = maxFamilyOopEmbedded;
+    }
+
+    public String getFormularyDescription() {
+        return formularyDescription;
+    }
+    public void setFormularyDescription(String formularyDescription) {
+        this.formularyDescription = formularyDescription;
+    }
+
+    public String getNetworkDescription() {
+        return networkDescription;
+    }
+    public void setNetworkDescription(String networkDescription) {
+        this.networkDescription = networkDescription;
+    }
+
+
 
     public Integer getIndividualDeductibleAmount() {
         return individualDeductibleAmount;
