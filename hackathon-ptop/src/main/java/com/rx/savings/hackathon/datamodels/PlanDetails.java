@@ -9,15 +9,14 @@ public class PlanDetails {
     private String pbm;
     private String formularyDescription;
     private String networkDescription;
-    private String maxFamilyDeductibleEmbedded;
-    private String maxFamilyOopEmbedded;
     private String coverageBeginDate;
     private String coverageEndDate;
     private Integer individualDeductibleAmount;
     private Integer familyDeductibleAmount;
     private Integer individualOutOfPocketAmount;
     private Integer familyOutOfPocketAmount;
-    private Boolean embedded;
+    private Boolean isDeductibleEmbedded;
+    private Boolean isOutOfPocketEmbedded;
     private Integer embeddedDeductibleAmount;
     private Integer embeddedOutOfPocketAmount;
 
@@ -55,19 +54,6 @@ public class PlanDetails {
         this.pbm = pbm;
     }
 
-    public String getMaxFamilyDeductibleEmbedded() {
-        return maxFamilyDeductibleEmbedded;
-    }
-    public void setMaxFamilyDeductibleEmbedded(String maxFamilyDeductibleEmbedded) {
-        this.maxFamilyDeductibleEmbedded = maxFamilyDeductibleEmbedded;
-    }
-
-    public String getMaxFamilyOopEmbedded() {
-        return maxFamilyOopEmbedded;
-    }
-    public void setMaxFamilyOopEmbedded(String maxFamilyOopEmbedded) {
-        this.maxFamilyOopEmbedded = maxFamilyOopEmbedded;
-    }
 
     public String getFormularyDescription() {
         return formularyDescription;
@@ -115,14 +101,23 @@ public class PlanDetails {
 
     public void setFamilyOutOfPocketAmount(Integer familyOutOfPocketAmount) {
         this.familyOutOfPocketAmount = familyOutOfPocketAmount;
+
+    }
+    public Boolean getDeductibleEmbedded() {
+        return isDeductibleEmbedded;
     }
 
-    public Boolean getEmbedded() {
-        return embedded;
+    public void setDeductibleEmbedded(Boolean deductibleEmbedded) {
+        isDeductibleEmbedded = deductibleEmbedded;
     }
 
-    public void setEmbedded(Boolean embedded) {
-        this.embedded = embedded;
+    public Boolean getOutOfPocketEmbedded() {
+        return isOutOfPocketEmbedded;
+    }
+
+    public void setOutOfPocketEmbedded(Boolean outOfPocketEmbedded) {
+        isOutOfPocketEmbedded = outOfPocketEmbedded;
+
     }
 
     public Integer getEmbeddedDeductibleAmount() {
@@ -162,12 +157,12 @@ public class PlanDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlanDetails that = (PlanDetails) o;
-        return Objects.equals(planName, that.planName) && Objects.equals(planId, that.planId) && Objects.equals(coverageBeginDate, that.coverageBeginDate) && Objects.equals(coverageEndDate, that.coverageEndDate) && Objects.equals(individualDeductibleAmount, that.individualDeductibleAmount) && Objects.equals(familyDeductibleAmount, that.familyDeductibleAmount) && Objects.equals(individualOutOfPocketAmount, that.individualOutOfPocketAmount) && Objects.equals(familyOutOfPocketAmount, that.familyOutOfPocketAmount) && Objects.equals(embedded, that.embedded) && Objects.equals(embeddedDeductibleAmount, that.embeddedDeductibleAmount) && Objects.equals(embeddedOutOfPocketAmount, that.embeddedOutOfPocketAmount);
+        return Objects.equals(planName, that.planName) && Objects.equals(planId, that.planId) && Objects.equals(brandOverGeneric, that.brandOverGeneric) && Objects.equals(pbm, that.pbm) && Objects.equals(formularyDescription, that.formularyDescription) && Objects.equals(networkDescription, that.networkDescription) && Objects.equals(coverageBeginDate, that.coverageBeginDate) && Objects.equals(coverageEndDate, that.coverageEndDate) && Objects.equals(individualDeductibleAmount, that.individualDeductibleAmount) && Objects.equals(familyDeductibleAmount, that.familyDeductibleAmount) && Objects.equals(individualOutOfPocketAmount, that.individualOutOfPocketAmount) && Objects.equals(familyOutOfPocketAmount, that.familyOutOfPocketAmount) && Objects.equals(isDeductibleEmbedded, that.isDeductibleEmbedded) && Objects.equals(isOutOfPocketEmbedded, that.isOutOfPocketEmbedded) && Objects.equals(embeddedDeductibleAmount, that.embeddedDeductibleAmount) && Objects.equals(embeddedOutOfPocketAmount, that.embeddedOutOfPocketAmount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(planName, planId, coverageBeginDate, coverageEndDate, individualDeductibleAmount, familyDeductibleAmount, individualOutOfPocketAmount, familyOutOfPocketAmount, embedded, embeddedDeductibleAmount, embeddedOutOfPocketAmount);
+        return Objects.hash(planName, planId, brandOverGeneric, pbm, formularyDescription, networkDescription, coverageBeginDate, coverageEndDate, individualDeductibleAmount, familyDeductibleAmount, individualOutOfPocketAmount, familyOutOfPocketAmount, isDeductibleEmbedded, isOutOfPocketEmbedded, embeddedDeductibleAmount, embeddedOutOfPocketAmount);
     }
 
     @Override
@@ -175,13 +170,18 @@ public class PlanDetails {
         return "PlanDetails{" +
                 "planName='" + planName + '\'' +
                 ", planId='" + planId + '\'' +
+                ", brandOverGeneric='" + brandOverGeneric + '\'' +
+                ", pbm='" + pbm + '\'' +
+                ", formularyDescription='" + formularyDescription + '\'' +
+                ", networkDescription='" + networkDescription + '\'' +
                 ", coverageBeginDate='" + coverageBeginDate + '\'' +
                 ", coverageEndDate='" + coverageEndDate + '\'' +
                 ", individualDeductibleAmount=" + individualDeductibleAmount +
                 ", familyDeductibleAmount=" + familyDeductibleAmount +
                 ", individualOutOfPocketAmount=" + individualOutOfPocketAmount +
                 ", familyOutOfPocketAmount=" + familyOutOfPocketAmount +
-                ", embedded=" + embedded +
+                ", isDeductibleEmbedded=" + isDeductibleEmbedded +
+                ", isOutOfPocketEmbedded=" + isOutOfPocketEmbedded +
                 ", embeddedDeductibleAmount=" + embeddedDeductibleAmount +
                 ", embeddedOutOfPocketAmount=" + embeddedOutOfPocketAmount +
                 '}';
