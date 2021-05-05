@@ -8,11 +8,14 @@ public class RxDetails {
     private String coinsurance;
     private Integer coinsuranceMinCost;
     private Integer coinsuranceMaxCost;
+    private String copay;
+    private String hierarcy;
     private Boolean deductiblePaidBeforeCopay;
 
     public RxDetails() {
 
     }
+
     public String getPlanName() {
         return planName;
     }
@@ -53,6 +56,14 @@ public class RxDetails {
         this.coinsurance = coinsurance;
     }
 
+    public String getCopay() {
+        return copay;
+    }
+
+    public void setCopay(String copay) {
+        this.copay = copay;
+    }
+
     public Integer getCoinsuranceMinCost() {
         return coinsuranceMinCost;
     }
@@ -77,4 +88,11 @@ public class RxDetails {
         this.deductiblePaidBeforeCopay = deductiblePaidBeforeCopay;
     }
 
+    public String getHierarcy() {
+        return hierarcy;
+    }
+
+    public void setHierarcy(String hierarcy) {
+        this.hierarcy = hierarcy;
+    }
 }
