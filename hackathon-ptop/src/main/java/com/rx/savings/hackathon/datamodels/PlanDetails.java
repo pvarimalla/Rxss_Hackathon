@@ -19,6 +19,9 @@ public class PlanDetails {
     private Boolean isOutOfPocketEmbedded;
     private Integer embeddedDeductibleAmount;
     private Integer embeddedOutOfPocketAmount;
+    private String coverageType;
+    private String mandatoryMaintenance;
+    private String specialConditions;
 
     public PlanDetails() {
 
@@ -125,6 +128,14 @@ public class PlanDetails {
 
     }
 
+    public String getCoverageType() {
+        return coverageType;
+    }
+
+    public void setCoverageType(String coverageType) {
+        this.coverageType = coverageType;
+    }
+
     public Integer getEmbeddedDeductibleAmount() {
         return embeddedDeductibleAmount;
     }
@@ -155,6 +166,22 @@ public class PlanDetails {
 
     public void setCoverageEndDate(String coverageEndDate) {
         this.coverageEndDate = coverageEndDate;
+    }
+
+    public String getMandatoryMaintenance() {
+        return mandatoryMaintenance;
+    }
+
+    public void setMandatoryMaintenance(String mandatoryMaintenance) {
+        this.mandatoryMaintenance = mandatoryMaintenance;
+    }
+
+    public String getSpecialConditions() {
+        return specialConditions;
+    }
+
+    public void setSpecialConditions(String specialConditions) {
+        this.specialConditions = specialConditions;
     }
 
     @Override

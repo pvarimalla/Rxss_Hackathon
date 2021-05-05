@@ -36,7 +36,7 @@ public class PdfPlanRxDetails implements Serializable {
     private String pharmacyTier;
 
     @Column(name = "Is_Deductible_Paid_Before_Copay_Coinsurance_Kicks_in_")
-    private Boolean deductiblePaidBeforeCopay;
+    private String deductiblePaidBeforeCopay;
 
     @Column(name = "Copay")
     private String copay;

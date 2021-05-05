@@ -9,6 +9,7 @@ public class RxDetails {
     private Integer coinsuranceMinCost;
     private Integer coinsuranceMaxCost;
     private String copay;
+    private String hierarcy;
     private Boolean deductiblePaidBeforeCopay;
 
     public RxDetails() {
@@ -87,4 +88,11 @@ public class RxDetails {
         this.deductiblePaidBeforeCopay = deductiblePaidBeforeCopay;
     }
 
+    public String getHierarcy() {
+        return hierarcy;
+    }
+
+    public void setHierarcy(String hierarcy) {
+        this.hierarcy = hierarcy;
+    }
 }
