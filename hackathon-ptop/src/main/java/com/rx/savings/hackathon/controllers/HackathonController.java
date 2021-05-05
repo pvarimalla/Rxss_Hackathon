@@ -1,4 +1,5 @@
 package com.rx.savings.hackathon.controllers;
+
 import com.rx.savings.hackathon.datamodels.BenefitsCoverageDetails;
 import com.rx.savings.hackathon.datamodels.PlanDetails;
 import com.rx.savings.hackathon.datamodels.RxDetails;
@@ -7,7 +8,7 @@ import com.rx.savings.hackathon.models.PdfPlanRxDetails;
 import com.rx.savings.hackathon.repository.PdfPlanDetailsRepository;
 import com.rx.savings.hackathon.repository.PdfPlanRxDetailsRepository;
 import com.rx.savings.hackathon.repository.PlanDetailsRepository;
-//import com.rx.savings.hackathon.repository.RxDetailsRepository;
+import com.rx.savings.hackathon.repository.RxDetailsRepository;
 import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.io.RandomAccessFile;
 import org.apache.pdfbox.pdfparser.PDFParser;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,15 +26,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Calendar;
-import java.time.LocalDate;
+
 import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
 import static java.time.temporal.TemporalAdjusters.lastDayOfYear;
 
 /**
  * HackathonController
- *
- *
  */
 @RestController
 @RequestMapping("/api")
@@ -47,44 +46,45 @@ public class HackathonController {
     @Autowired
     PlanDetailsRepository planDetailsRepository;
 
-//    @Autowired
-//    RxDetailsRepository rxDetailsRepository;
+    @Autowired
+    RxDetailsRepository rxDetailsRepository;
+
+    public static File convert(MultipartFile file) throws IOException {
+        File convFile = new File(file.getOriginalFilename());
+        convFile.createNewFile();
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
+    }
 
     @GetMapping("/ping")
     public ResponseEntity<String> get() {
         return ResponseEntity.ok("Status is healthy!");
     }
 
-//<<<<<<< HEAD
-//    @GetMapping("/pdf-parse")
-//    public BenefitsCoverageDetails pdfParse(@RequestParam("file") MultipartFile file) {
-//=======
     @PostMapping("/single-pdf-parse")
     public BenefitsCoverageDetails singlePdfParse(@RequestParam("file") MultipartFile file) {
         BenefitsCoverageDetails benefitsCoverageDetails = new BenefitsCoverageDetails();
 
         try {
-                String parsedText = "";
-                PDFParser parser = new PDFParser(new RandomAccessFile(convert(file), "r"));
-                parser.parse();
-                COSDocument cosDoc = parser.getDocument();
-                PDFTextStripper pdfStripper = new PDFTextStripper();
-                PDDocument pdDoc = new PDDocument(cosDoc);
-                parsedText = pdfStripper.getText(pdDoc);
-                if (parsedText != null && !parsedText.isEmpty()) {
+            String parsedText = "";
+            PDFParser parser = new PDFParser(new RandomAccessFile(convert(file), "r"));
+            parser.parse();
+            COSDocument cosDoc = parser.getDocument();
+            PDFTextStripper pdfStripper = new PDFTextStripper();
+            PDDocument pdDoc = new PDDocument(cosDoc);
+            parsedText = pdfStripper.getText(pdDoc);
+            if (parsedText != null && !parsedText.isEmpty()) {
 
-                    PlanDetails newPlan = new PlanDetails();
-                    newPlan.setPlanName(parsedText);
-                    benefitsCoverageDetails.setPlanDetails(newPlan);
-                }
-
-//<<<<<<< HEAD
-//                if(remainingText.contains("If you need drugs to")) {
-//                    List<RxDetails> listOfRxDetails = new ArrayList<>();
-//=======
-            } catch (Exception e) {
-                System.out.println("Exception occurred while parsing the single PDF file " + e);
+                PlanDetails newPlan = new PlanDetails();
+                newPlan.setPlanName(parsedText);
+                benefitsCoverageDetails.setPlanDetails(newPlan);
             }
+
+        } catch (Exception e) {
+            System.out.println("Exception occurred while parsing the single PDF file " + e);
+        }
 
         return benefitsCoverageDetails;
     }
@@ -135,15 +135,6 @@ public class HackathonController {
 
                     //Hardcoding PBM for now as value doesn't exist in pdf
                     newPlan.setPbm("NULL");
-//
-//                    String[] drugTypes = {"Generic Drugs", "Preferred brand drugs", "Non-preferred brand","Specialty drugs"};
-//                    String[] drugTires = {"Generic", "Brand Preferred", "Brand Non Preferred","Specialty"};
-//                    String[] specialtyDrugTires = {"Specialty Generic","Specialty Brand Preferred","Specialty Brnad Non Preferred"};
-//                    String medicalEvent = split[1];
-//
-//
-//                    for(int i=0;i<drugTypes.length;i++) {
-//                        System.out.println("index " + medicalEvent.indexOf(drugTypes[i]));
 
                     //Hardcoding Formulary_Description for now as value doesn't exist in pdf
                     newPlan.setFormularyDescription("STANDARD");
@@ -205,59 +196,7 @@ public class HackathonController {
                     }
 
                     Boolean deductiblePaidBeforeCopay = remainingText.contains("All copayment and coinsurance costs shown in this chart are after your deductible has been met, if a deductible applies");
-/*
-<<<<<<< HEAD
-//                            if (drugTypes[i].contains("Specialty")) {
-//
-//                                for (int s = 0; s < specialtyDrugTires.length; s++) {
-//
-//                                    RxDetails newRxDetailsSpecialty = new RxDetails();
-//                                    newRxDetailsSpecialty.setDrugTier(specialtyDrugTires[s]);
-//                                    newRxDetailsSpecialty.setPlanId(planName.trim());
-//                                    newRxDetailsSpecialty.setPlanName(planName.trim());
-//                                    newRxDetailsSpecialty.setCoinsurance(split[0].trim());
-//                                    newRxDetailsSpecialty.setPharmacyTier("Specialty");
-//
-//                                    listOfRxDetails.add(newRxDetailsSpecialty);
-//                                }
-//                            }else {
 
-                                split = medicalEvent.split(drugTypes[i]);
-                                split = split[1].split("Retail:");
-
-                                System.out.println("split " + Arrays.toString(split));
-                                String[] retailMinMaxSplit = split;
-                                split = split[1].split(" Coinsurance");
-
-                                RxDetails newRxDetailsRetail = new RxDetails();
-                                newRxDetailsRetail.setDrugTier(drugTires[i]);
-                                newRxDetailsRetail.setPlanId(planName.trim());
-                                newRxDetailsRetail.setPlanName(planName.trim());
-                                newRxDetailsRetail.setCoinsurance(split[0].trim());
-                                newRxDetailsRetail.setCopay("NULL");
-                                newRxDetailsRetail.setPharmacyTier("Retail90");
-
-                                RxDetails newRxDetailsInNetwork = new RxDetails();
-                                newRxDetailsInNetwork.setDrugTier(drugTires[i]);
-                                newRxDetailsInNetwork.setPlanId(planName.trim());
-                                newRxDetailsInNetwork.setPlanName(planName.trim());
-                                newRxDetailsInNetwork.setCoinsurance(split[0].trim());
-                                newRxDetailsInNetwork.setCopay("NULL");
-                                newRxDetailsInNetwork.setPharmacyTier("in Network");
-
-                                split = split[1].split("Mail Order:");
-
-                                split = split[1].split("\\nCoinsurance");
-
-                                RxDetails newRxDetailsMailOrder = new RxDetails();
-                                newRxDetailsMailOrder.setDrugTier(drugTires[i]);
-                                newRxDetailsMailOrder.setPlanId(planName.trim());
-                                newRxDetailsMailOrder.setPlanName(planName.trim());
-                                newRxDetailsMailOrder.setCoinsurance(split[0].trim());
-                                newRxDetailsMailOrder.setCopay("NULL");
-                                newRxDetailsMailOrder.setPharmacyTier("MailOrder");
-
-======= */
                     if (remainingText.contains("If you need drugs to")) {
                         List<RxDetails> listOfRxDetails = new ArrayList<>();
 
@@ -287,28 +226,7 @@ public class HackathonController {
                                 newRxDetailsInNetwork.setPlanId(planName.trim());
                                 newRxDetailsInNetwork.setPlanName(planName.trim());
                                 newRxDetailsInNetwork.setPharmacyTier("in Network");
-/*
-<<<<<<< HEAD
-                            if (retailMinMaxSplit != null && retailMinMaxSplit.length > 2 && retailMinMaxSplit[2] != null) {
-                                String retailMinMaxSplitString = retailMinMaxSplit[2];
 
-                                System.out.println("min index " + retailMinMaxSplitString.indexOf("Min"));
-                                if (retailMinMaxSplitString.indexOf("Min") != -1) {
-                                    split = retailMinMaxSplitString.split("Min");
-                                    String coinsuranceMinAmount[] = split[0].split("\\$");
-                                    Integer coinsuranceMin = Integer.parseInt(coinsuranceMinAmount[1].trim().replaceAll(",", ""));
-                                    newRxDetailsRetail.setCoinsuranceMinCost(coinsuranceMin);
-                                    newRxDetailsInNetwork.setCoinsuranceMinCost(coinsuranceMin);
-                                }
-                                System.out.println("max index " + retailMinMaxSplitString.indexOf("Max"));
-
-                                if (retailMinMaxSplitString.indexOf("Max") != -1) {
-                                    split = retailMinMaxSplitString.split("Max");
-                                    String coinsuranceMaxAmount[] = split[0].split("and \\$");
-                                    Integer coinsuranceMax = Integer.parseInt(coinsuranceMaxAmount[1].trim().replaceAll(",", ""));
-                                    newRxDetailsRetail.setCoinsuranceMaxCost(coinsuranceMax);
-                                    newRxDetailsInNetwork.setCoinsuranceMaxCost(coinsuranceMax);
-======= */
                                 if (split[1].indexOf("Copay") != -1) {
                                     covalues = split[1].split("Copay");
                                     newRxDetailsRetail.setCoinsurance(covalues[0].trim());
@@ -343,12 +261,6 @@ public class HackathonController {
 
                                 }
 
-/*
-<<<<<<< HEAD
-                                if (retailMinMaxSplitString.indexOf("Mail") != -1) {
-                                    String mailOrderSplit[] = retailMinMaxSplitString.split("Mail \\nOrder:");
-=======
->>>>>>> b8ed7f9d1b0e1d019890eaacdecc76efe8aa76cd */
 
                                 String[] mailOrdersplit = split[1].split("Mail Order:");
 
@@ -386,15 +298,11 @@ public class HackathonController {
                                     }
 
                                 }
-//<<<<<<< HEAD
-//                            }
 
                                 listOfRxDetails.add(newRxDetailsInNetwork);
                                 listOfRxDetails.add(newRxDetailsRetail);
                                 listOfRxDetails.add(newRxDetailsMailOrder);
 
-
-                                System.out.println("List of Rx Details size " + listOfRxDetails.size());
 
                             } else {
                                 System.out.println("medicalEvent " + medicalEvent);
@@ -402,44 +310,40 @@ public class HackathonController {
                             }
                         }
 
-                        benefitsCoverageDetails.setRxDetails(listOfRxDetails);
-                    }
-/*
-<<<<<<< HEAD
-                    System.out.println("List of Rx Details size " + listOfRxDetails.size());
+                        System.out.println("List of Rx Details size " + listOfRxDetails.size());
 
-                    int size = listOfRxDetails.size();
-                    for(int k=0;k<size;k++){
+                        int size = listOfRxDetails.size();
+                        for (int k = 0; k < size; k++) {
 
-                        RxDetails newRxDetailsPrev = null;
+                            RxDetails newRxDetailsPrev = null;
 
-                        System.out.println("List drug tiers " + listOfRxDetails.get(k).getDrugTier() + listOfRxDetails.get(k).getPharmacyTier());
+                            System.out.println("List drug tiers " + listOfRxDetails.get(k).getDrugTier() + listOfRxDetails.get(k).getPharmacyTier());
 
-                        if(listOfRxDetails.get(k).getDeductiblePaidBeforeCopay()==true){
+                            if (listOfRxDetails.get(k).getDeductiblePaidBeforeCopay() == true) {
 
-                            newRxDetailsPrev = new RxDetails();
+                                newRxDetailsPrev = new RxDetails();
 
-                            newRxDetailsPrev.setDrugTier("Preventive "+listOfRxDetails.get(k).getDrugTier());
-                            newRxDetailsPrev.setPlanId(listOfRxDetails.get(k).getPlanId());
-                            newRxDetailsPrev.setPlanName(listOfRxDetails.get(k).getPlanName());
-                            newRxDetailsPrev.setCoinsurance(listOfRxDetails.get(k).getCoinsurance());
-                            newRxDetailsPrev.setPharmacyTier(listOfRxDetails.get(k).getPharmacyTier());
-                            newRxDetailsPrev.setDeductiblePaidBeforeCopay(false);
-                            newRxDetailsPrev.setCopay(listOfRxDetails.get(k).getCopay());
-                            newRxDetailsPrev.setCoinsuranceMaxCost(listOfRxDetails.get(k).getCoinsuranceMaxCost());
-                            newRxDetailsPrev.setCoinsuranceMinCost(listOfRxDetails.get(k).getCoinsuranceMinCost());
+                                newRxDetailsPrev.setDrugTier("Preventive " + listOfRxDetails.get(k).getDrugTier());
+                                newRxDetailsPrev.setPlanId(listOfRxDetails.get(k).getPlanId());
+                                newRxDetailsPrev.setPlanName(listOfRxDetails.get(k).getPlanName());
+                                newRxDetailsPrev.setCoinsurance(listOfRxDetails.get(k).getCoinsurance());
+                                newRxDetailsPrev.setPharmacyTier(listOfRxDetails.get(k).getPharmacyTier());
+                                newRxDetailsPrev.setDeductiblePaidBeforeCopay(false);
+                                newRxDetailsPrev.setCopay(listOfRxDetails.get(k).getCopay());
+                                newRxDetailsPrev.setCoinsuranceMaxCost(listOfRxDetails.get(k).getCoinsuranceMaxCost());
+                                newRxDetailsPrev.setCoinsuranceMinCost(listOfRxDetails.get(k).getCoinsuranceMinCost());
 
-                            System.out.println("List of Prev Rx Details size " + newRxDetailsPrev);
+                                System.out.println("List of Prev Rx Details size " + newRxDetailsPrev);
 
-                            listOfRxDetails.add(newRxDetailsPrev);
+                                listOfRxDetails.add(newRxDetailsPrev);
+                            }
+
+
                         }
 
-
-
+                        benefitsCoverageDetails.setRxDetails(listOfRxDetails);
                     }
 
-                    benefitsCoverageDetails.setRxDetails(listOfRxDetails);
-======= */
                     benefitsCoverageDetails.setPlanDetails(newPlan);
                     listOfBenefitDetails.add(benefitsCoverageDetails);
                 }
@@ -450,75 +354,85 @@ public class HackathonController {
         });
         return listOfBenefitDetails;
     }
-        public static File convert(MultipartFile file) throws IOException
-    {
-        File convFile = new File(file.getOriginalFilename());
-        convFile.createNewFile();
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
-        return convFile;
-    }
 
     @GetMapping("/save-pdf")
-    public void savePlanDetails(@RequestParam("file") MultipartFile file){
-        BenefitsCoverageDetails benefitsCoverageDetails = singlePdfParse(file);
-        System.out.println("print benefitsCoverageDetails response :"+benefitsCoverageDetails);
-        //Build MedicationClaim from the data obtained so far
-        PdfPlanDetails planDetails = new PdfPlanDetails();
-        planDetails.setGroupName("ADS");
-        planDetails.setBrandOverGenericFlag(benefitsCoverageDetails.getPlanDetails().getBrandOverGeneric());
-        planDetails.setPbm(benefitsCoverageDetails.getPlanDetails().getPbm());
-        planDetails.setPlanId(benefitsCoverageDetails.getPlanDetails().getPlanId());
-        planDetails.setPlanName(benefitsCoverageDetails.getPlanDetails().getPlanName());
-        planDetails.setFormularyDescription(benefitsCoverageDetails.getPlanDetails().getFormularyDescription());
-        planDetails.setNetworkDescription(benefitsCoverageDetails.getPlanDetails().getNetworkDescription());
-        planDetails.setEmbeddedOOPAmt(benefitsCoverageDetails.getPlanDetails().getEmbeddedOutOfPocketAmount());
-        planDetails.setEmbeddedDeductibleAmt(benefitsCoverageDetails.getPlanDetails().getEmbeddedDeductibleAmount());
-        planDetails.setCoverageType("Individual/Family");
-//        planDetails.setIsDeductibleEmbedded(benefitsCoverageDetails.getPlanDetails().getFamilyDeductibleAmount());
-//        planDetails.setIsOOPEmbedded(benefitsCoverageDetails.getPlanDetails().getFamilyOutOfPocketAmount());
-        planDetails.setIndvDeductible(benefitsCoverageDetails.getPlanDetails().getIndividualDeductibleAmount());
-        planDetails.setIndvOOP(benefitsCoverageDetails.getPlanDetails().getIndividualOutOfPocketAmount());
-//        planDetails.setSharedDeductible(benefitsCoverageDetails.getPlanDetails().getFamilyDeductibleAmount());
-        planDetails.setSharedOOP(benefitsCoverageDetails.getPlanDetails().getFamilyOutOfPocketAmount());
-        planDetails.setMaintenanceFlag("N/A");
-        planDetails.setSpecialConditions("N/A");
-        pdfPlanDetailsRepository.save(planDetails);
-        System.out.println("plan_details from the pdf " + planDetails);
+    public void savePlanDetails(@RequestParam("file") MultipartFile[] file) {
+        List<BenefitsCoverageDetails> benefitsCoverageDetails = pdfParse(file);
+        System.out.println("print benefitsCoverageDetails response :" + benefitsCoverageDetails);
+
+        System.out.println("inside benefitsCoverageDetails response :" + benefitsCoverageDetails.size());
+
+        for (int i = 0; i < benefitsCoverageDetails.size(); i++) {
+
+            System.out.println("inside looping: " + benefitsCoverageDetails.get(i).getPlanDetails());
+
+            //Build Plan Details from the data obtained so far
+            PdfPlanDetails planDetails = new PdfPlanDetails();
+            planDetails.setGroupName("WCS");
+            planDetails.setBrandOverGenericFlag(benefitsCoverageDetails.get(i).getPlanDetails().getBrandOverGeneric());
+            planDetails.setPbm(benefitsCoverageDetails.get(i).getPlanDetails().getPbm());
+            planDetails.setPlanId(benefitsCoverageDetails.get(i).getPlanDetails().getPlanId());
+            planDetails.setPlanName(benefitsCoverageDetails.get(i).getPlanDetails().getPlanName());
+            planDetails.setFormularyDescription(benefitsCoverageDetails.get(i).getPlanDetails().getFormularyDescription());
+            planDetails.setNetworkDescription(benefitsCoverageDetails.get(i).getPlanDetails().getNetworkDescription());
+            planDetails.setEmbeddedOOPAmt(benefitsCoverageDetails.get(i).getPlanDetails().getEmbeddedOutOfPocketAmount());
+            planDetails.setEmbeddedDeductibleAmt(benefitsCoverageDetails.get(i).getPlanDetails().getEmbeddedDeductibleAmount());
+            planDetails.setCoverageType("Individual/Family");
+            if (benefitsCoverageDetails.get(i).getPlanDetails().getDeductibleEmbedded() == true) {
+                planDetails.setIsDeductibleEmbedded("Yes");
+            } else {
+                planDetails.setIsDeductibleEmbedded("No");
+            }
+            if (benefitsCoverageDetails.get(i).getPlanDetails().getOutOfPocketEmbedded() == true) {
+                planDetails.setIsOOPEmbedded("Yes");
+            } else {
+                planDetails.setIsOOPEmbedded("No");
+            }
+            planDetails.setIndvDeductible(benefitsCoverageDetails.get(i).getPlanDetails().getIndividualDeductibleAmount());
+            planDetails.setIndvOOP(benefitsCoverageDetails.get(i).getPlanDetails().getIndividualOutOfPocketAmount());
+            planDetails.setSharedDeductible(benefitsCoverageDetails.get(i).getPlanDetails().getFamilyDeductibleAmount());
+            planDetails.setSharedOOP(benefitsCoverageDetails.get(i).getPlanDetails().getFamilyOutOfPocketAmount());
+            planDetails.setMaintenanceFlag("N/A");
+            planDetails.setSpecialConditions("N/A");
+            pdfPlanDetailsRepository.save(planDetails);
+            System.out.println("plan_details from the pdf " + planDetails);
 
 
-        Integer arrsize = benefitsCoverageDetails.getRxDetails().size();
+            //Build Plan Rx Details from the data obtained so far
+            Integer arrsize = benefitsCoverageDetails.get(i).getRxDetails().size();
+            for (int k = 0; k < arrsize; k++) {
+                PdfPlanRxDetails planRxDetails = new PdfPlanRxDetails();
+                planRxDetails.setGroupPrefixCode("WCS");
+                planRxDetails.setBenfitBeginning("2021-01-01");
+                planRxDetails.setBenefitEnd("2021-12-31");
+                planRxDetails.setPlanName(benefitsCoverageDetails.get(i).getRxDetails().get(k).getPlanName());
+                planRxDetails.setPlanId(benefitsCoverageDetails.get(i).getRxDetails().get(k).getPlanId());
+                planRxDetails.setDrugTier(benefitsCoverageDetails.get(i).getRxDetails().get(k).getDrugTier());
+                planRxDetails.setPharmacyTier(benefitsCoverageDetails.get(i).getRxDetails().get(k).getPharmacyTier());
+                planRxDetails.setDeductiblePaidBeforeCopay(benefitsCoverageDetails.get(i).getRxDetails().get(k).getDeductiblePaidBeforeCopay());
+                planRxDetails.setCopay(benefitsCoverageDetails.get(i).getRxDetails().get(k).getCopay());
+                if (benefitsCoverageDetails.get(i).getRxDetails().get(k).getCoinsurance() != null) {
+                    planRxDetails.setCoinsurance(benefitsCoverageDetails.get(i).getRxDetails().get(k).getCoinsurance().replace("%", ""));
+                }
+                planRxDetails.setCoinsuranceMinCost(benefitsCoverageDetails.get(i).getRxDetails().get(k).getCoinsuranceMinCost());
+                planRxDetails.setCoinsuranceMaxCost(benefitsCoverageDetails.get(i).getRxDetails().get(k).getCoinsuranceMaxCost());
+                planRxDetails.setHierarcy("NULL");
+                pdfPlanRxDetailsRepository.save(planRxDetails);
+                System.out.println("plan_rx_details from the pdf " + planRxDetails);
+            }
 
-        for(int i = 0; i < arrsize; i++)
-        {
-            PdfPlanRxDetails planRxDetails = new PdfPlanRxDetails();
-            planRxDetails.setGroupPrefixCode("TST");
-            planRxDetails.setBenfitBeginning("2021-01-01");
-            planRxDetails.setBenefitEnd("2021-12-31");
-            planRxDetails.setPlanName(benefitsCoverageDetails.getRxDetails().get(i).getPlanName());
-            planRxDetails.setPlanId(benefitsCoverageDetails.getRxDetails().get(i).getPlanId());
-            planRxDetails.setDrugTier(benefitsCoverageDetails.getRxDetails().get(i).getDrugTier());
-            planRxDetails.setPharmacyTier(benefitsCoverageDetails.getRxDetails().get(i).getPharmacyTier());
-            planRxDetails.setDeductiblePaidBeforeCopay(benefitsCoverageDetails.getRxDetails().get(i).getDeductiblePaidBeforeCopay());
-            planRxDetails.setCopay(benefitsCoverageDetails.getRxDetails().get(i).getCopay());
-            planRxDetails.setCoinsurance(benefitsCoverageDetails.getRxDetails().get(i).getCoinsurance().replace("%", ""));
-            planRxDetails.setCoinsuranceMinCost(benefitsCoverageDetails.getRxDetails().get(i).getCoinsuranceMinCost());
-            planRxDetails.setCoinsuranceMaxCost(benefitsCoverageDetails.getRxDetails().get(i).getCoinsuranceMaxCost());
-            planRxDetails.setHierarcy("NULL");
-            pdfPlanRxDetailsRepository.save(planRxDetails);
-            System.out.println("plan_rx_details from the pdf " + planRxDetails);
         }
+
     }
 
-//    @GetMapping("/create-table")
-//    public void createPlanDetails(){
-//
-//        planDetailsRepository.createPlanDetails("TEST_plan_details");
-//
-//        rxDetailsRepository.createRxDetails("Test_plan_rx_details");
-//
-//    }
+    @GetMapping("/create-table")
+    public void createPlanDetails() {
+
+        planDetailsRepository.createPlanDetails("TEST_plan_details");
+
+        rxDetailsRepository.createRxDetails("Test_plan_rx_details");
+
+    }
 
 }
 

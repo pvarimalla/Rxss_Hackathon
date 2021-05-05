@@ -1,4 +1,5 @@
 package com.rx.savings.hackathon;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.hateoas.HypermediaAutoConfiguration;
@@ -21,6 +22,7 @@ public class HackathonApplication {
     public static void main(String[] args) {
         SpringApplication.run(HackathonApplication.class, args);
     }
+
     @Bean
     MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();

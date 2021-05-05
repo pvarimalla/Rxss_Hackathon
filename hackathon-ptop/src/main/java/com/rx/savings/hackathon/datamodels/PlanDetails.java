@@ -23,6 +23,7 @@ public class PlanDetails {
     public PlanDetails() {
 
     }
+
     public String getPlanName() {
         return planName;
     }
@@ -42,6 +43,7 @@ public class PlanDetails {
     public String getBrandOverGeneric() {
         return brandOverGeneric;
     }
+
     public void setBrandOverGeneric(String brandOverGeneric) {
         this.brandOverGeneric = brandOverGeneric;
     }
@@ -50,6 +52,7 @@ public class PlanDetails {
     public String getPbm() {
         return pbm;
     }
+
     public void setPbm(String pbm) {
         this.pbm = pbm;
     }
@@ -58,6 +61,7 @@ public class PlanDetails {
     public String getFormularyDescription() {
         return formularyDescription;
     }
+
     public void setFormularyDescription(String formularyDescription) {
         this.formularyDescription = formularyDescription;
     }
@@ -65,10 +69,10 @@ public class PlanDetails {
     public String getNetworkDescription() {
         return networkDescription;
     }
+
     public void setNetworkDescription(String networkDescription) {
         this.networkDescription = networkDescription;
     }
-
 
 
     public Integer getIndividualDeductibleAmount() {
@@ -103,6 +107,7 @@ public class PlanDetails {
         this.familyOutOfPocketAmount = familyOutOfPocketAmount;
 
     }
+
     public Boolean getDeductibleEmbedded() {
         return isDeductibleEmbedded;
     }

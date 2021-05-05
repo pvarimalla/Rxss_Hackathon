@@ -14,6 +14,7 @@ public class RxDetails {
     public RxDetails() {
 
     }
+
     public String getPlanName() {
         return planName;
     }
