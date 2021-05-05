@@ -2,7 +2,17 @@ import React from 'react';
 import './upload.css';
 import Plan_Details from './planDetails';
 import PlanRxDetails from './planRxDetails';
-import { FormControlLabel} from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import axios from "axios";
+import TextField from '@material-ui/core/TextField';
+import {
+    Paper,
+    MenuItem,
+    Radio,
+    RadioGroup,
+    FormLabel,
+    FormControlLabel,
+  } from '@material-ui/core';
 
 class UploadFile extends React.Component {
 
@@ -103,26 +113,47 @@ class UploadFile extends React.Component {
 		return  <PlanRxDetails rxDetails= { this.state.rxDetails}/>
 
 	}
-
+	showGroupId = () => {
+		return (
+		  <div> 
+			  <form noValidate autoComplete="off">
+				<TextField required id="standard-required" label="Required" />
+			   </form>
+		   </div>
+		  );
+	  }
 
 		render() {
 		return (
 			<div id="container">
-				<h3>Upload a File</h3>
+				
 				<h4>{this.state.msg}</h4>
+				<div>
+				<FormControl >
+              <RadioGroup name="Enter details" >
+				  <h4>Enter a group ID</h4>
+				 {this.showGroupId()}
+                <h4>Enter a PBM ID</h4>
+				{this.showGroupId()}
+             </RadioGroup>
+			 <input type="submit" value="Submit" />
+              </FormControl>
+			  </div>
+			  <br></br>
+			  <div>
+				{/* <input onChange={this.onFileChange} type="file"></input>*/}
+				 <input type="file" name="fileCollection" onChange={this.onFileChange} multiple/> 
+				 <button  onClick={this.uploadFileData}>Upload</button> 
+
 				{/* <input onChange={this.onFileChange} type="file"></input>
-				{/* <input type="file" name="fileCollection" onChange={this.onFileChange} multiple></input> */}
-				{/* <button  onClick={this.uploadFileData}>Upload</button> */}
+				<button disabled={!this.state.file} onClick={this.uploadFileData}>Upload</button> */}
 
-				<input onChange={this.onFileChange} type="file"></input>
-				<button disabled={!this.state.file} onClick={this.uploadFileData}>Upload</button>
-
-				{/* <button disabled={!this.state.file} onClick={this.uploadFileData, this.fetchFileData}>Upload</button> */}
-				{this.state.isFileUploaded ? this.showDropDown() : null}
+				
+				{this.state.isFileUploaded ? this.showDropDown() : null} 
 				 {this.showButtons()}
+				 </div>
 				 {/* {this.state.name==='Plan_Rx_Details' && <PlanRxDetails rxDetails= { this.state.rxDetails}/>} */}
 			</div>
-
 
 
 

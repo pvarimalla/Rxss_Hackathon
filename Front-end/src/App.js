@@ -12,7 +12,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import UploadFile from './routes/Forms/UploadFile';
-
+import HeaderTest from './Components/Header/HeaderTest';
 import planDetails from './routes/Forms/planDetails';
 
 function App() {
@@ -20,7 +20,9 @@ function App() {
     <React.Fragment>
 <Router>
  {/* <Navbar/>  */}
+ <HeaderTest/>
  <UploadFile/> 
+
   {/* <Sidebar /> */}
 {/* 
   <Switch>
