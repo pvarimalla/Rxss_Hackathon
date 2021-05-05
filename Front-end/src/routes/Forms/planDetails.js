@@ -10,6 +10,11 @@ const PlanDetails = ({details}) => {
 
   console.log(details);
   // console.log(rxDetails);
+  
+// const arr=[details];
+// console.log(arr[0].planId);
+// console.log(details.planId)
+
 
     const [data, setData] = useState([])
     const columns = [
@@ -39,8 +44,8 @@ const PlanDetails = ({details}) => {
 
     // ]
     
-    const test1 = [];
-    test1.push(details);
+    // const test1 = [];
+    // test1.push(details);
 
     
     return (
@@ -56,7 +61,7 @@ const PlanDetails = ({details}) => {
           //   width:20,
           //   maxWidth: 20
           // }}
-          data={test1}
+          data={details}
           columns={columns}
         />
         </div>
