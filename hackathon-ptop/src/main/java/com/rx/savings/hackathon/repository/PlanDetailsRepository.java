@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface PlanDetailsRepository extends JpaRepository<PdfPlanDetails, Integer> {
 
@@ -39,5 +40,16 @@ public interface PlanDetailsRepository extends JpaRepository<PdfPlanDetails, Int
             "  PRIMARY KEY (`id`)\n" +
             ") ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;", nativeQuery = true)
     void createPlanDetails(@Param("Group") String Group);
+
+    @Transactional
+    @Modifying
+    @Query(value = "TRUNCATE TABLE Test_plan_details;",nativeQuery = true)
+    void truncatePlanDetails();
+
+
+    @Query(value = "select count(*) from INFORMATION_SCHEMA.Tables\n" +
+            "where TABLE_NAME=CONCAT(:Group,'_plan_details');",nativeQuery = true)
+    Integer checkTableExists(@Param("Group") String Group);
+
 
 }

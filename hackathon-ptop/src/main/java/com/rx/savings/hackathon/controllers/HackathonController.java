@@ -356,11 +356,16 @@ public class HackathonController {
     }
 
     @GetMapping("/save-pdf")
-    public void savePlanDetails(@RequestParam("file") MultipartFile[] file) {
+    public void savePlanDetails(@RequestParam("file") MultipartFile[] file,@RequestParam("GroupCode") String GroupCode,@RequestParam("PBM") String PBM) {
         List<BenefitsCoverageDetails> benefitsCoverageDetails = pdfParse(file);
         System.out.println("print benefitsCoverageDetails response :" + benefitsCoverageDetails);
 
         System.out.println("inside benefitsCoverageDetails response :" + benefitsCoverageDetails.size());
+
+        pdfPlanDetailsRepository.deletePdfPlanDetails(GroupCode);
+        pdfPlanRxDetailsRepository.deletePdfPlanRxDetails(GroupCode);
+
+
 
         for (int i = 0; i < benefitsCoverageDetails.size(); i++) {
 
@@ -426,10 +431,18 @@ public class HackathonController {
     }
 
     @GetMapping("/create-table")
-    public void createPlanDetails() {
+    public void createPlanDetails(@RequestParam("GroupCode") String GroupCode) {
 
+        if(planDetailsRepository.checkTableExists("Test")!=null){
+            planDetailsRepository.truncatePlanDetails();
+        }
         planDetailsRepository.createPlanDetails("TEST_plan_details");
 
+        if(rxDetailsRepository.checkRxTableExists("Test")!=null){
+            rxDetailsRepository.truncatePlanRxDetails();
+        }
+
+        planDetailsRepository.createPlanDetails("TEST_plan_details");
         rxDetailsRepository.createRxDetails("Test_plan_rx_details");
 
     }

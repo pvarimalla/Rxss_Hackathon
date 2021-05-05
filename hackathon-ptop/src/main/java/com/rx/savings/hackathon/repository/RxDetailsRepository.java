@@ -33,4 +33,14 @@ public interface RxDetailsRepository extends JpaRepository<PdfPlanRxDetails, Int
             ") ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1;", nativeQuery = true)
     void createRxDetails(@Param("Group") String Group);
 
+    @Transactional
+    @Modifying
+    @Query(value = "TRUNCATE TABLE Test_plan_rx_details;",nativeQuery = true)
+    void truncatePlanRxDetails();
+
+
+    @Query(value = "select count(*) from INFORMATION_SCHEMA.Tables\n" +
+            "where TABLE_NAME=CONCAT(:Group,'_plan_rx_details');",nativeQuery = true)
+    Integer checkRxTableExists(@Param("Group") String Group);
+
 }
