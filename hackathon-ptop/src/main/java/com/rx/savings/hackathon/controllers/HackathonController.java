@@ -120,13 +120,14 @@ public class HackathonController {
                     newPlan.setCoverageEndDate(coverageEndPeriod.toString());
 
                     split = coveragePeriod.split("-");
+
                     String planName = split[1];
 
                     //Set plan name d attributes
                     String[] planNameSplit = planName.split("Page 1 of 7");
 
-                    newPlan.setPlanId(planNameSplit[0].substring(10).trim());
-                    newPlan.setPlanName(planNameSplit[0].substring(10).trim());
+                    newPlan.setPlanId(planNameSplit[0].substring(10).trim().replace('–','-'));
+                    newPlan.setPlanName(planNameSplit[0].substring(10).trim().replace('–','-'));
 
                     //Hardcoding Brand over generic for now as value doesn't exist in old files
                     newPlan.setBrandOverGeneric("NO");
@@ -218,14 +219,14 @@ public class HackathonController {
 
                                 RxDetails newRxDetailsRetail = new RxDetails();
                                 newRxDetailsRetail.setDrugTier(drugTires[i]);
-                                newRxDetailsRetail.setPlanId(planNameSplit[0].substring(10).trim());
-                                newRxDetailsRetail.setPlanName(planNameSplit[0].substring(10).trim());
+                                newRxDetailsRetail.setPlanId(planNameSplit[0].substring(10).trim().replace('–','-'));
+                                newRxDetailsRetail.setPlanName(planNameSplit[0].substring(10).trim().replace('–','-'));
                                 newRxDetailsRetail.setPharmacyTier("Mchoice");
 
                                 RxDetails newRxDetailsInNetwork = new RxDetails();
                                 newRxDetailsInNetwork.setDrugTier(drugTires[i]);
-                                newRxDetailsInNetwork.setPlanId(planNameSplit[0].substring(10).trim());
-                                newRxDetailsInNetwork.setPlanName(planNameSplit[0].substring(10).trim());
+                                newRxDetailsInNetwork.setPlanId(planNameSplit[0].substring(10).trim().replace('–','-'));
+                                newRxDetailsInNetwork.setPlanName(planNameSplit[0].substring(10).trim().replace('–','-'));
                                 if(!drugTires[i].contains("Specialty")) {
                                     newRxDetailsInNetwork.setPharmacyTier("in Network");
                                     newRxDetailsInNetwork.setDrugTier(drugTires[i]);
@@ -275,8 +276,8 @@ public class HackathonController {
 
                                 RxDetails newRxDetailsMailOrder = new RxDetails();
                                 newRxDetailsMailOrder.setDrugTier(drugTires[i]);
-                                newRxDetailsMailOrder.setPlanId(planNameSplit[0].substring(10).trim());
-                                newRxDetailsMailOrder.setPlanName(planNameSplit[0].substring(10).trim());
+                                newRxDetailsMailOrder.setPlanId(planNameSplit[0].substring(10).trim().replace('–','-'));
+                                newRxDetailsMailOrder.setPlanName(planNameSplit[0].substring(10).trim().replace('–','-'));
                                 newRxDetailsMailOrder.setPharmacyTier("MailOrder");
 
 
@@ -493,7 +494,7 @@ public class HackathonController {
             Integer arrsize = benefitsCoverageDetails.get(i).getRxDetails().size();
             for (int k = 0; k < arrsize; k++) {
                 PdfPlanRxDetails planRxDetails = new PdfPlanRxDetails();
-                planRxDetails.setGroupPrefixCode("TST");
+                planRxDetails.setGroupPrefixCode(GroupCode);
                 planRxDetails.setBenfitBeginning(benefitsCoverageDetails.get(i).getPlanDetails().getCoverageBeginDate());
                 planRxDetails.setBenefitEnd(benefitsCoverageDetails.get(i).getPlanDetails().getCoverageEndDate());
                 planRxDetails.setPlanName(benefitsCoverageDetails.get(i).getRxDetails().get(k).getPlanName());
@@ -530,7 +531,7 @@ public class HackathonController {
         if(planDetailsRepository.checkTableExists(GroupCode)==0){
             planDetailsRepository.createPlanDetails(GroupCode);
         }else{
-            planDetailsRepository.createPlanDetails(GroupCode);
+
             planDetailsRepository.truncatePlanDetails();
             planDetailsRepository.insertPlanDetails(GroupCode);
         }
@@ -545,6 +546,31 @@ public class HackathonController {
 
 
     }
+
+    @GetMapping("/update-table")
+    public void updatePlanRxDetails()
+    {
+        rxDetailsRepository.updateSpecialtyGeneric();
+        rxDetailsRepository.updateSpecialtyBrandPreferred();;
+        rxDetailsRepository.updateSpecialtyBrandNonPreferred();
+        System.out.println("Updated Specialty tiers");
+    }
+
+
+    @GetMapping("/add-newRow")
+    public void addNewRow()
+    {
+        rxDetailsRepository.addNewRow();
+        System.out.println("Added new Row");
+    }
+
+    @GetMapping("/delete-newRow")
+    public void delNewRow()
+    {
+        rxDetailsRepository.deleteNewRow();
+        System.out.println("Deleted new Row");
+    }
+
 
 }
 

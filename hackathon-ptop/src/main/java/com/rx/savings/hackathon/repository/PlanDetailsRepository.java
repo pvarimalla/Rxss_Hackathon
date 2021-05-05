@@ -13,19 +13,19 @@ public interface PlanDetailsRepository extends JpaRepository<PdfPlanDetails, Int
     @Transactional
     @Modifying
      @Query
-    (value = "create table staging_odyssey.TST_plan_details\n" +
+    (value = "create table staging_odyssey.tst_plan_details\n" +
             "as\n" +
             "(select * from staging_odyssey.pdf_plan_details where Group_Name = :Group )", nativeQuery = true)
     void createPlanDetails(@Param("Group") String Group);
 
     @Transactional
     @Modifying
-    @Query(value = "TRUNCATE TABLE TST_plan_details;",nativeQuery = true)
+    @Query(value = "TRUNCATE TABLE staging_odyssey.tst_plan_details;",nativeQuery = true)
     void truncatePlanDetails();
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO TST_plan_details\n" +
+    @Query(value = "INSERT INTO staging_odyssey.tst_plan_details\n" +
             "(select * from staging_odyssey.pdf_plan_details a where a.Group_Name = :Group );",nativeQuery = true)
     void insertPlanDetails(@Param("Group") String Group);
 
