@@ -17,9 +17,9 @@ public class PdfPlanDetails implements Serializable {
     @Column(name = "Group_Name")
     private String groupName;
     @Column(name = "Plan_Beginning")
-    private LocalDateTime planBeginning;
+    private String planBeginning;
     @Column(name = "Plan_End")
-    private LocalDateTime endDate;
+    private String endDate;
     @Column(name = "Plan_Name")
     private String planName;
     @Column(name = "Plan_ID")
@@ -35,21 +35,21 @@ public class PdfPlanDetails implements Serializable {
     @Column(name = "Coverage_Type")
     private String coverageType;
     @Column(name = "Max_Family_Deductible_Amount")
-    private Integer sharedDeductible;
+    private String sharedDeductible;
     @Column(name = "Is_Family_Deductible_Embedded_")
     private String isDeductibleEmbedded;
     @Column(name = "Embedded_Deductible_Amount")
-    private Integer embeddedDeductibleAmt;
+    private String embeddedDeductibleAmt;
     @Column(name = "Max_Individual_Deductible_Amount")
-    private Integer indvDeductible;
+    private String indvDeductible;
     @Column(name = "Max_Family_OOP_Amount")
-    private Integer sharedOOP;
+    private String sharedOOP;
     @Column(name = "Is_Max_Family_OOP_Embedded_")
     private String isOOPEmbedded;
     @Column(name = "Embedded_OOP_Amount")
-    private Integer embeddedOOPAmt;
+    private String embeddedOOPAmt;
     @Column(name = "Max_Individual_OOP_Amount")
-    private Integer indvOOP;
+    private String indvOOP;
     @Column(name = "Mandatory_Maintenance_")
     private String maintenanceFlag;
     @Column(name = "Special_Conditions_")
