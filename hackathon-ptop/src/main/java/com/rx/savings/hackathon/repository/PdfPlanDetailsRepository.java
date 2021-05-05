@@ -12,7 +12,7 @@ public interface PdfPlanDetailsRepository extends JpaRepository<PdfPlanDetails, 
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM pdf_plan_details WHERE Group_Name= :GroupCode" +
+    @Query(value = "DELETE FROM staging_odyssey.pdf_plan_details WHERE Group_Name= :GroupCode" +
             "            ;", nativeQuery = true)
     void deletePdfPlanDetails(@Param("GroupCode") String GroupCode);
 }
