@@ -1,81 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import MaterialTable from 'material-table';
-import { assertExpressionStatement } from '@babel/types';
-import axios from "axios";
-// import UploadFile from './routes/Forms/UploadFile';
-
 
 const PlanDetails = ({details}) => {
-
-  console.log(details);
-  // console.log(rxDetails);
-  
-// const arr=[details];
-// console.log(arr[0].planId);
-// console.log(details.planId)
-
-
-    const [data, setData] = useState([])
-    const columns = [
-      { title: "planId", field: "planId" },
-      { title: "planName", field: "planName" },
-      { title: "coverageBeginDate", field: "coverageBeginDate" },
-      { title: "coverageEndDate", field: "coverageEndDate" },
-      { title: "embedded", field: "embedded" },
-      { title: "embeddedDeductibleAmount", field: "embeddedDeductibleAmount" },
-      { title: "embeddedOutOfPocketAmount", field: "embeddedOutOfPocketAmount" },
-      { title: "familyDeductibleAmount", field: "familyDeductibleAmount" },
-      { title: "familyOutOfPocketAmount", field: "familyOutOfPocketAmount" },
-      { title: "individualDeductibleAmount", field: "individualDeductibleAmount" },
-      { title: "individualOutOfPocketAmount", field: "individualOutOfPocketAmount" }
-
-    ]
-    // const [rxData, rxSetData] = useState([])
-    // const rxColumns = [
-    //   { title: "planId", field: "planId" },
-    //   { title: "planName", field: "planName" },
-    //   { title: "coinsurance", field: "coinsurance" },
-    //   { title: "coinsuranceMaxCost", field: "coinsuranceMaxCost" },
-    //   { title: "coinsuranceMinCost", field: "coinsuranceMinCost" },
-    //   { title: "deductiblePaidBeforeCopay", field: "deductiblePaidBeforeCopay" },
-    //   { title: "pharmacyTier", field: "pharmacyTier" }
-      
-
-    // ]
+  const columns = [
+    { title: "planId", field: "planId" },
+    { title: "planName", field: "planName" },
+    { title: "coverageBeginDate", field: "coverageBeginDate" },
+    { title: "coverageEndDate", field: "coverageEndDate" },
+    { title: "embedded", field: "embedded" },
+    { title: "embeddedDeductibleAmount", field: "embeddedDeductibleAmount" },
+    { title: "embeddedOutOfPocketAmount", field: "embeddedOutOfPocketAmount" },
+    { title: "familyDeductibleAmount", field: "familyDeductibleAmount" },
+    { title: "familyOutOfPocketAmount", field: "familyOutOfPocketAmount" },
+    { title: "individualDeductibleAmount", field: "individualDeductibleAmount" },
+    { title: "individualOutOfPocketAmount", field: "individualOutOfPocketAmount" }
+  ]
     
-    // const test1 = [];
-    // test1.push(details);
-
-    
-    return (
-      <div className="App">
-      <div>
-        <MaterialTable options={{ paging: false }}
-          title="Plan Data"
-          // {cellStyle: {
-          //   width: 20,
-          //   maxWidth: 20
-          // },
-          // headerStyle: {
-          //   width:20,
-          //   maxWidth: 20
-          // }}
-          data={details}
-          columns={columns}
-        />
-        </div>
-        {/* <br></br>
-        <div>
-        <MaterialTable options={{ paging: false }}
-          title="Plan Rx Details"
-          data={rxDetails}
-          columns={rxColumns}
-        />
-        </div> */}
-        
+  return (
+    <div className="App">
+    <div>
+      <MaterialTable options={{ paging: false }}
+        title="Plan Data"
+        data={details}
+        columns={columns}
+      />
       </div>
-    );
+      {/* <br></br>
+      <div>
+      <MaterialTable options={{ paging: false }}
+        title="Plan Rx Details"
+        data={rxDetails}
+        columns={rxColumns}
+      />
+      </div> */}
+      
+    </div>
+  );
   }
   
   export default PlanDetails;

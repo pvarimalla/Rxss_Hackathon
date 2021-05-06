@@ -4,16 +4,9 @@ import {
   NavLink,
   Bars,
   NavMenu,
-  NavBtn,
-  NavBtnLink,
   NavLeft,
-  NavRight
-
 } from './HeaderElements';
-// import logo from "/Users/sjammula/data-mocking/src/RxSavingsLogo.png";
-import logo from "/Users/sjammula/Documents/GitHub/Rxss_Hackathon/Front-end/src/RxSavingsLogo.png";
-import { Button} from 'react-bootstrap'
-
+import logo from "./../../images/RxSavingsLogo.png";
 
 const HeaderTest = () => {
   return (

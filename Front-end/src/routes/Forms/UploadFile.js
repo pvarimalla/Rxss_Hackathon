@@ -4,22 +4,29 @@ import Plan_Details from './planDetails';
 import PlanRxDetails from './planRxDetails';
 import FormControl from '@material-ui/core/FormControl';
 import axios from "axios";
-import TextField from '@material-ui/core/TextField';
-import {
-    Paper,
-    MenuItem,
-    Radio,
-    RadioGroup,
-    FormLabel,
-    FormControlLabel,
-  } from '@material-ui/core';
+import { Checkbox, TextField} from '@material-ui/core';
 
 
 class UploadFile extends React.Component {
 	
 	constructor(props) {
 		super(props);
-		this.state = {file: '', msg: '', isFileUploaded: false, planDetails: [], rxDetails: [],value:'',name: null,showDropDown: false,fileCollection:'',showGroupId:'',pd:[]};
+		this.state = {
+			file: '', 
+			msg: '', 
+			isFileUploaded: false, 
+			planDetails: [], 
+			rxDetails: [],
+			value:'',
+			name: null,
+			showDropDown: false,
+			fileCollection:'',
+			showGroupId:'',
+			pd:[],
+			groupCode: undefined,
+			pbm: undefined,
+			isClientApproved: false,
+		};
 		// let data = new FormData();
 	}
 	
@@ -44,18 +51,22 @@ class UploadFile extends React.Component {
 	
 		 var formData = new FormData();
   
+		 if (!this.state.groupCode || !this.state.pbm) {
+			 alert("Please enter all fields");
+			 return;
+		 }
 		// files.map((file, index) => {
 		//   formData.append('file', this.state.file)
 		// });
 		for (const key of Object.keys(this.state.fileCollection)) {
-            formData.append('files', this.state.fileCollection[key])
+			formData.append('files', this.state.fileCollection[key]);
 		}
+		formData.append('GroupCode', this.state.groupCode);
+		formData.append('PBM', this.state.pbm);
 		
 		 axios.post("http://localhost:8080/api/pdf-parse", formData, {
         }).then((res) => res.data
         ).then(res => {
-			console.log(res)
-			
 			const pd=[res[0].planDetails];
 			 pd.push(res[1].planDetails);
 			 console.log(pd);
@@ -66,13 +77,17 @@ class UploadFile extends React.Component {
 			 for(var i=0;i<res[1].rxDetails.length;i++){
 				prd.push(res[1].rxDetails[i]);
 			 }
-			 console.log(prd);
-		   this.setState({msg: "File successfully uploaded", isFileUploaded: true, planDetails: pd ,rxDetails: prd  });
-		//    this.setState({msg: "File successfully uploaded", isFileUploaded: true, planDetails: res[1].planDetails,rxDetails: res[0].rxDetails,  });
-		//    this.setState({ planDetails.push(res[1].planDetails), rxDetails.push(res[1].rxDetails)});
-	   }).catch(err => {
+
+		   this.setState({
+			   msg: "File successfully uploaded", 
+			   isFileUploaded: true, 
+			   planDetails: pd,
+			   rxDetails: prd,
+			});
+		}).catch(err => {
 		   this.setState({error: err});
 	   });
+	}
 
 /*
 		fetch('http://localhost:8080/api/pdf-parse', {
@@ -91,7 +106,7 @@ class UploadFile extends React.Component {
 			this.setState({error: err});
 		});*/
 		
-	}
+
 	// handlechange= event => {
 	// 	this.setState({ name: event.target.value });
 	// 	console.log("entered handleChange"+event.target.value);
@@ -107,57 +122,61 @@ class UploadFile extends React.Component {
 	// 	return <Plan_Details details={this.state.planDetails}/>
 	//   };
 	
-	
-	
-	
-	showDropDown= () => {
-		// console.log(this.state.showDropDown)
-		
-   return(
-	   <div>
-	<button onClick={()=>this.setState({name:'Plan_Details'})}>Plan details</button>
-	<button onClick={()=>this.setState({name:'Plan_Rx_Details'})}>Plan Rx details</button>
-	</div>
-   );
-	}
+		showDropDown= () => {	
+			   
+			return(
+				<>
+					<div>
+						<button onClick={()=>this.setState({name:'Plan_Details'})}>Plan details</button>
+						<button onClick={()=>this.setState({name:'Plan_Rx_Details'})}>Plan Rx details</button>
+					</div>
+					<div>
+						<Checkbox 
+							checked={this.state.isClientApproved} 
+							required 
+							onClick={() => this.setState({isClientApproved: !this.state.isClientApproved})}
+						/> Client Approval
+						<button disabled={!this.state.isClientApproved}> Submit to database </button>
+					</div>
+				</>
+			)
+		}
 	
 	showButtons=()=>{
 		if(this.state.name===null){
 			return null;
 		}
 		if(this.state.name==='Plan_Details'){
-			// return console.log("1");
 			return  <Plan_Details details={this.state.planDetails}/>
 		}
-		//return console.log("2");
 		return  <PlanRxDetails rxDetails= { this.state.rxDetails}/>
 	
 	}
 	
-	showGroupId = () => {
-		return (
-		  <div> 
-			  <form noValidate autoComplete="off">
-				<TextField required id="standard-required" label="Required" />
-			   </form>
-		   </div>
-		  );
-	  }
-		render() {
+	render() {
+		console.log(this.state.isFileUploaded);
 		return (
 			<div id="container">
 				
 				<h4>{this.state.msg}</h4>
 				<div>
 				<FormControl >
-              <RadioGroup name="Enter details" >
-				  <h4>Enter a group ID</h4>
-				 {this.showGroupId()}
-                <h4>Enter a PBM ID</h4>
-				{this.showGroupId()}
-             </RadioGroup>
-			 <input type="submit" value="Submit" />
-              </FormControl>
+            
+				  <h4>Enter a group code</h4>
+				  <TextField 
+					  required 
+					  id="group-id" 
+					  label="Required" 
+					  onChange={(event)=> this.setState({groupCode: event.target.value})}
+					/>
+                <h4>Enter PBM</h4>
+				<TextField 
+					required 
+					id="pbm-id" 
+					label="Required" 
+					onChange={(event)=> this.setState({pbm: event.target.value})}
+				/>
+				</FormControl>
 			  </div>
 			  <br></br>
 			  <div>
@@ -169,17 +188,11 @@ class UploadFile extends React.Component {
 				<button disabled={!this.state.file} onClick={this.uploadFileData}>Upload</button> */}
 
 				
-				{this.state.isFileUploaded ? this.showDropDown() : null} 
+				{this.state.isFileUploaded && this.showDropDown()} 
 				 {this.showButtons()}
 				 </div>
 				 {/* {this.state.name==='Plan_Rx_Details' && <PlanRxDetails rxDetails= { this.state.rxDetails}/>} */}
 			</div>
-			
-
-
-
-
-
 		)
 	}
 
