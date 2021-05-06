@@ -19,10 +19,14 @@ public class PlanDetails {
     private Boolean isOutOfPocketEmbedded;
     private Integer embeddedDeductibleAmount;
     private Integer embeddedOutOfPocketAmount;
+    private String coverageType;
+    private String mandatoryMaintenance;
+    private String specialConditions;
 
     public PlanDetails() {
 
     }
+
     public String getPlanName() {
         return planName;
     }
@@ -42,6 +46,7 @@ public class PlanDetails {
     public String getBrandOverGeneric() {
         return brandOverGeneric;
     }
+
     public void setBrandOverGeneric(String brandOverGeneric) {
         this.brandOverGeneric = brandOverGeneric;
     }
@@ -50,6 +55,7 @@ public class PlanDetails {
     public String getPbm() {
         return pbm;
     }
+
     public void setPbm(String pbm) {
         this.pbm = pbm;
     }
@@ -58,6 +64,7 @@ public class PlanDetails {
     public String getFormularyDescription() {
         return formularyDescription;
     }
+
     public void setFormularyDescription(String formularyDescription) {
         this.formularyDescription = formularyDescription;
     }
@@ -65,10 +72,10 @@ public class PlanDetails {
     public String getNetworkDescription() {
         return networkDescription;
     }
+
     public void setNetworkDescription(String networkDescription) {
         this.networkDescription = networkDescription;
     }
-
 
 
     public Integer getIndividualDeductibleAmount() {
@@ -103,6 +110,7 @@ public class PlanDetails {
         this.familyOutOfPocketAmount = familyOutOfPocketAmount;
 
     }
+
     public Boolean getDeductibleEmbedded() {
         return isDeductibleEmbedded;
     }
@@ -118,6 +126,14 @@ public class PlanDetails {
     public void setOutOfPocketEmbedded(Boolean outOfPocketEmbedded) {
         isOutOfPocketEmbedded = outOfPocketEmbedded;
 
+    }
+
+    public String getCoverageType() {
+        return coverageType;
+    }
+
+    public void setCoverageType(String coverageType) {
+        this.coverageType = coverageType;
     }
 
     public Integer getEmbeddedDeductibleAmount() {
@@ -150,6 +166,22 @@ public class PlanDetails {
 
     public void setCoverageEndDate(String coverageEndDate) {
         this.coverageEndDate = coverageEndDate;
+    }
+
+    public String getMandatoryMaintenance() {
+        return mandatoryMaintenance;
+    }
+
+    public void setMandatoryMaintenance(String mandatoryMaintenance) {
+        this.mandatoryMaintenance = mandatoryMaintenance;
+    }
+
+    public String getSpecialConditions() {
+        return specialConditions;
+    }
+
+    public void setSpecialConditions(String specialConditions) {
+        this.specialConditions = specialConditions;
     }
 
     @Override
