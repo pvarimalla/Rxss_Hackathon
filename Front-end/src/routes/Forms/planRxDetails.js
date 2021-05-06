@@ -7,33 +7,28 @@ import axios from "axios";
 
 
 const PlanRxDetails = ({rxDetails}) => {
-
-
-  console.log(rxDetails);
-
-    
-    const [rxData, rxSetData] = useState([])
     const rxColumns = [
-      { title: "planId", field: "planId" },
-      { title: "planName", field: "planName" },
-      { title: "coinsurance", field: "coinsurance" },
-      { title: "coinsuranceMaxCost", field: "coinsuranceMaxCost" },
-      { title: "coinsuranceMinCost", field: "coinsuranceMinCost" },
-      { title: "deductiblePaidBeforeCopay", field: "deductiblePaidBeforeCopay" },
-      { title: "pharmacyTier", field: "pharmacyTier" }
-      
-
+      { title: "Group Prefix Code", field: "groupName" },
+      { title: "Plan ID", field: "planId" },
+      { title: "Plan Name", field: "planName" },
+      { title: "Plan Begin Date", field: "coverageBeginDate" },
+      { title: "Plan End Date", field: "coverageEndDate" },
+      { title: "Drug Tier", field: "drugTier" },
+      { title: "Pharmacy Tier", field: "pharmacyTier" },
+      { title: "Copay Value", field: "copay" },
+      { title: "Coinsurance Value", field: "coinsurance" },
+      { title: "Coinsurance Max Cost", field: "coinsuranceMaxCost" },
+      { title: "Coinsurance Min Cost", field: "coinsuranceMinCost" },
+      { title: "Hierarchy", field: "hierarcy" },
+      { title: "Is deductible paid before copay?", field: "deductiblePaidBeforeCopay" }
     ]
-    
-  
 
-    
     return (
       <div className="App">
         <br></br>
         <div>
         <MaterialTable options={{ paging: false }}
-          title="Plan Rx Details"
+          title="Plan Rx Details Information"
           data={rxDetails}
           columns={rxColumns}
         />

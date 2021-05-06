@@ -4,24 +4,34 @@ import MaterialTable from 'material-table';
 
 const PlanDetails = ({details}) => {
   const columns = [
-    { title: "planId", field: "planId" },
-    { title: "planName", field: "planName" },
-    { title: "coverageBeginDate", field: "coverageBeginDate" },
-    { title: "coverageEndDate", field: "coverageEndDate" },
-    { title: "embedded", field: "embedded" },
-    { title: "embeddedDeductibleAmount", field: "embeddedDeductibleAmount" },
-    { title: "embeddedOutOfPocketAmount", field: "embeddedOutOfPocketAmount" },
-    { title: "familyDeductibleAmount", field: "familyDeductibleAmount" },
-    { title: "familyOutOfPocketAmount", field: "familyOutOfPocketAmount" },
-    { title: "individualDeductibleAmount", field: "individualDeductibleAmount" },
-    { title: "individualOutOfPocketAmount", field: "individualOutOfPocketAmount" }
+    { title: "Group Prefix Code", field: "groupName" },
+    { title: "Plan ID", field: "planId" },
+    { title: "Plan Name", field: "planName" },
+    { title: "Plan Begin Date", field: "coverageBeginDate" },
+    { title: "Plan End Date", field: "coverageEndDate" },
+    {title: "Brand Over Generic Flag", field: "brandOverGeneric"},
+    { title: "PBM", field: "pbm" },
+    { title: "Formulary Description", field: "formularyDescription" },
+    { title: "Network Description", field: "networkDescription" },
+    { title: "Individual Deductible Amount", field: "individualDeductibleAmount" },
+    { title: "Family Deductible Amount", field: "familyDeductibleAmount" },
+    { title: "Individual OOP Amount", field: "individualOutOfPocketAmount" },
+    { title: "Family OOP Amount", field: "familyOutOfPocketAmount" },
+    { title: "Embedded Deductible Flag", field: "deductibleEmbedded" },
+    { title: "Embedded Deductible Amount", field: "embeddedDeductibleAmount" },
+    { title: "Embedded OOP Flag", field: "outOfPocketEmbedded" },
+    { title: "Embedded OOP Amount", field: "embeddedOutOfPocketAmount" },
+    { title: "Coverage Type", field: "coverageType" },
+    { title: "Mandatory Maintenance info", field: "mandatoryMaintenance" },
+    { title: "Special Conditions", field: "specialConditions" },
+
   ]
     
   return (
     <div className="App">
     <div>
       <MaterialTable options={{ paging: false }}
-        title="Plan Data"
+        title="Plan Details Information"
         data={details}
         columns={columns}
       />

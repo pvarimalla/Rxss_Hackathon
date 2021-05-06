@@ -382,12 +382,16 @@ public class HackathonController {
                 System.out.println("Exception occurred while parsing the PDF file " + e);
             }
         });
+
+//       savePlanDetails(listOfBenefitDetails,GroupCode,PBM);
         return listOfBenefitDetails;
     }
 
-    @GetMapping("/save-pdf")
-    public void savePlanDetails(@RequestParam("file") MultipartFile[] file,@RequestParam("GroupCode") String GroupCode,@RequestParam("PBM") String PBM) {
-        List<BenefitsCoverageDetails> benefitsCoverageDetails = pdfParse(file,GroupCode,PBM);
+    @PostMapping("/save-pdf")
+    public List<BenefitsCoverageDetails> savePlanDetails(@RequestParam("file") MultipartFile[] file,@RequestParam("GroupCode") String GroupCode,@RequestParam("PBM") String PBM) {
+       List<BenefitsCoverageDetails> benefitsCoverageDetails = pdfParse(file,GroupCode,PBM);
+
+
         System.out.println("print benefitsCoverageDetails response :" + benefitsCoverageDetails);
 
         System.out.println("inside benefitsCoverageDetails response :" + benefitsCoverageDetails.size());
@@ -519,10 +523,10 @@ public class HackathonController {
             }
 
         }
-
+        return benefitsCoverageDetails;
     }
 
-    @GetMapping("/create-table")
+    @PostMapping("/create-table")
     public void createPlanDetails(@RequestParam("GroupCode") String GroupCode) {
 
         System.out.println(planDetailsRepository.checkTableExists(GroupCode));
