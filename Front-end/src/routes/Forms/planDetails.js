@@ -1,65 +1,8 @@
-import React from 'react';
-import './App.css';
-import MaterialTable from 'material-table';
 
-const PlanDetails = ({details}) => {
-  const columns = [
-    { title: "planId", field: "planId" },
-    { title: "planName", field: "planName" },
-    { title: "coverageBeginDate", field: "coverageBeginDate" },
-    { title: "coverageEndDate", field: "coverageEndDate" },
-    { title: "embedded", field: "embedded" },
-    { title: "embeddedDeductibleAmount", field: "embeddedDeductibleAmount" },
-    { title: "embeddedOutOfPocketAmount", field: "embeddedOutOfPocketAmount" },
-    { title: "familyDeductibleAmount", field: "familyDeductibleAmount" },
-    { title: "familyOutOfPocketAmount", field: "familyOutOfPocketAmount" },
-    { title: "individualDeductibleAmount", field: "individualDeductibleAmount" },
-    { title: "individualOutOfPocketAmount", field: "individualOutOfPocketAmount" }
-  ]
-    
-  return (
-    <div className="App">
-    <div>
-      <MaterialTable options={{ paging: false }}
-        title="Plan Data"
-        data={details}
-        columns={columns}
-      />
-      </div>
-      {/* <br></br>
-      <div>
-      <MaterialTable options={{ paging: false }}
-        title="Plan Rx Details"
-        data={rxDetails}
-        columns={rxColumns}
-      />
-      </div> */}
-      
-    </div>
-  );
-  }
-  
-  export default PlanDetails;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { forwardRef } from 'react';
-import Avatar from 'react-avatar';
+// import Avatar from 'react-avatar';
 import Grid from '@material-ui/core/Grid'
 
 import MaterialTable from "material-table";
@@ -105,128 +48,147 @@ const api = axios.create({
   baseURL: `https://reqres.in/api`
 })
 
+const PlanDetails = ({details}) => {
+  console.log(details);
+  const [data, setData] = useState([])
+  const columns = [
+    { title: "Group Prefix Code", field: "groupName" },
+    { title: "Plan ID", field: "planId" },
+    { title: "Plan Name", field: "planName" },
+    { title: "Plan Begin Date", field: "coverageBeginDate" },
+    { title: "Plan End Date", field: "coverageEndDate" },
+    {title: "Brand Over Generic Flag", field: "brandOverGeneric"},
+    { title: "PBM", field: "pbm" },
+    { title: "Formulary Description", field: "formularyDescription" },
+    { title: "Network Description", field: "networkDescription" },
+    { title: "Individual Deductible Amount", field: "individualDeductibleAmount" },
+    { title: "Family Deductible Amount", field: "familyDeductibleAmount" },
+    { title: "Individual OOP Amount", field: "individualOutOfPocketAmount" },
+    { title: "Family OOP Amount", field: "familyOutOfPocketAmount" },
+    { title: "Embedded Deductible Flag", field: "deductibleEmbedded" },
+    { title: "Embedded Deductible Amount", field: "embeddedDeductibleAmount" },
+    { title: "Embedded OOP Flag", field: "outOfPocketEmbedded" },
+    { title: "Embedded OOP Amount", field: "embeddedOutOfPocketAmount" },
+    { title: "Coverage Type", field: "coverageType" },
+    { title: "Mandatory Maintenance info", field: "mandatoryMaintenance" },
+    { title: "Special Conditions", field: "specialConditions" },
 
-function validateEmail(email){
-  const re = /^((?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\]))$/;
-  return re.test(String(email).toLowerCase());
-}
-
-function plan_details() {
-
-  var columns = [
-    {title: "id", field: "id", hidden: true},
-    {title: "Avatar", render: rowData => <Avatar maxInitials={1} size={40} round={true} name={rowData === undefined ? " " : rowData.first_name} />  },
-    {title: "First name", field: "first_name"},
-    {title: "Last name", field: "last_name"},
-    {title: "email", field: "email"}
   ]
-  const [data, setData] = useState([]); //table data
+
 
   //for error handling
   const [iserror, setIserror] = useState(false)
   const [errorMessages, setErrorMessages] = useState([])
 
-  useEffect(() => { 
-    api.get("/users")
-        .then(res => {               
-            setData(res.data.data)
-         })
-         .catch(error=>{
-             console.log("Error")
-         })
-  }, [])
+  // useEffect(() => { 
+  //   api.get("/users")
+  //       .then(res => {               
+  //           setData(res.data.data)
+  //        })
+  //        .catch(error=>{
+  //            console.log("Error")
+  //        })
+  // }, [])
 
   const handleRowUpdate = (newData, oldData, resolve) => {
     //validation
     let errorList = []
-    if(newData.first_name === ""){
-      errorList.push("Please enter first name")
-    }
-    if(newData.last_name === ""){
-      errorList.push("Please enter last name")
-    }
-    if(newData.email === "" || validateEmail(newData.email) === false){
-      errorList.push("Please enter a valid email")
-    }
-
-    if(errorList.length < 1){
-      api.patch("/users/"+newData.id, newData)
-      .then(res => {
-        const dataUpdate = [...data];
-        const index = oldData.tableData.id;
-        dataUpdate[index] = newData;
-        setData([...dataUpdate]);
-        resolve()
-        setIserror(false)
-        setErrorMessages([])
-      })
-      .catch(error => {
-        setErrorMessages(["Update failed! Server error"])
-        setIserror(true)
-        resolve()
+    // if(newData.first_name === ""){
+    //   errorList.push("Please enter first name")
+    // }
+    // if(newData.last_name === ""){
+    //   errorList.push("Please enter last name")
+    // }
+    // if(newData.email === "" || validateEmail(newData.email) === false){
+    //   errorList.push("Please enter a valid email")
+    // }
+    
+    const dataUpdate = [...data];
+    const index = oldData.tableData.id;
+    dataUpdate[index] = newData;
+    setData([...dataUpdate]);
+    resolve()
+    setIserror(false)
+    setErrorMessages([])
+    
+    // if(errorList.length < 1){
+    //   api.patch("/users/"+newData.id, newData)
+    //   .then(res => {
+    //     const dataUpdate = [...data];
+    //     const index = oldData.tableData.id;
+    //     dataUpdate[index] = newData;
+    //     setData([...dataUpdate]);
+    //     resolve()
+    //     setIserror(false)
+    //     setErrorMessages([])
+    //   })
+    //   .catch(error => {
+    //     setErrorMessages(["Update failed! Server error"])
+    //     setIserror(true)
+    //     resolve()
         
-      })
-    }else{
-      setErrorMessages(errorList)
-      setIserror(true)
-      resolve()
+    //   })
+    // }else{
+    //   setErrorMessages(errorList)
+    //   setIserror(true)
+    //   resolve()
 
-    }
+    // }
     
   }
 
   const handleRowAdd = (newData, resolve) => {
     //validation
     let errorList = []
-    if(newData.first_name === undefined){
-      errorList.push("Please enter first name")
-    }
-    if(newData.last_name === undefined){
-      errorList.push("Please enter last name")
-    }
-    if(newData.email === undefined || validateEmail(newData.email) === false){
-      errorList.push("Please enter a valid email")
-    }
+    // if(newData.first_name === undefined){
+    //   errorList.push("Please enter first name")
+    // }
+    // if(newData.last_name === undefined){
+    //   errorList.push("Please enter last name")
+    // }
+    // if(newData.email === undefined || validateEmail(newData.email) === false){
+    //   errorList.push("Please enter a valid email")
+    // }
 
-    if(errorList.length < 1){ //no error
-      api.post("/users", newData)
-      .then(res => {
-        let dataToAdd = [...data];
-        dataToAdd.push(newData);
-        setData(dataToAdd);
-        resolve()
-        setErrorMessages([])
-        setIserror(false)
-      })
-      .catch(error => {
-        setErrorMessages(["Cannot add data. Server error!"])
-        setIserror(true)
-        resolve()
-      })
-    }else{
-      setErrorMessages(errorList)
-      setIserror(true)
-      resolve()
-    }
+    // if(errorList.length < 1){ //no error
+    //   api.post("/users", newData)
+    //   .then(res => {
+    //     let dataToAdd = [...data];
+    //     dataToAdd.push(newData);
+    //     setData(dataToAdd);
+    //     resolve()
+    //     setErrorMessages([])
+    //     setIserror(false)
+    //   })
+    //   .catch(error => {
+    //     setErrorMessages(["Cannot add data. Server error!"])
+    //     setIserror(true)
+    //     resolve()
+    //   })
+    // }else{
+    //   setErrorMessages(errorList)
+    //   setIserror(true)
+    //   resolve()
+    // }
 
     
   }
 
   const handleRowDelete = (oldData, resolve) => {
     
-    api.delete("/users/"+oldData.id)
-      .then(res => {
-        const dataDelete = [...data];
-        const index = oldData.tableData.id;
-        dataDelete.splice(index, 1);
-        setData([...dataDelete]);
-        resolve()
-      })
-      .catch(error => {
-        setErrorMessages(["Delete failed! Server error"])
-        setIserror(true)
-        resolve()
-      })
+    // api.delete("/users/"+oldData.id)
+    //   .then(res => {
+    //     const dataDelete = [...data];
+    //     const index = oldData.tableData.id;
+    //     dataDelete.splice(index, 1);
+    //     setData([...dataDelete]);
+    //     resolve()
+    //   })
+    //   .catch(error => {
+    //     setErrorMessages(["Delete failed! Server error"])
+    //     setIserror(true)
+    //     resolve()
+    //   })
   }
 
 
@@ -245,17 +207,26 @@ function plan_details() {
               </Alert>
             }       
           </div>
-            <MaterialTable
-              title="User data from remote source"
+            <MaterialTable options={{ paging: false }} style={{ width: 1200,justifyContent: "flex-start", alignItems: "center" }}
+            title="Plan Details Information"
               columns={columns}
-              data={data}
+              data={details}
               icons={tableIcons}
               editable={{
+                
                 onRowUpdate: (newData, oldData) =>
-                  new Promise((resolve) => {
-                      handleRowUpdate(newData, oldData, resolve);
-                      
-                  }),
+                {
+                  console.log(newData);
+                console.log(oldData);
+                details[0].planId="Activities"
+                return new Promise((resolve) => {
+                  console.log("resolved");
+                  resolve(details)
+                  console.log("details");
+                })},
+              
+            
+                 
                 onRowAdd: (newData) =>
                   new Promise((resolve) => {
                     handleRowAdd(newData, resolve)
@@ -273,4 +244,4 @@ function plan_details() {
   );
 }
 
-export default plan_details;*/
+export default PlanDetails;

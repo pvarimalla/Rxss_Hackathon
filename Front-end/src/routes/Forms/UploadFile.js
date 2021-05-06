@@ -26,6 +26,7 @@ class UploadFile extends React.Component {
 			groupCode: undefined,
 			pbm: undefined,
 			isClientApproved: false,
+			pdfParseResponse: undefined,
 		};
 		// let data = new FormData();
 	}
@@ -45,9 +46,6 @@ class UploadFile extends React.Component {
 	uploadFileData = (event) => {
 		event.preventDefault();
 		this.setState({msg: ''});
-		// let data = new FormData();
-		// data.append('file', this.state.file);
-		// console.log(data);
 	
 		 var formData = new FormData();
   
@@ -55,38 +53,54 @@ class UploadFile extends React.Component {
 			 alert("Please enter all fields");
 			 return;
 		 }
-		// files.map((file, index) => {
-		//   formData.append('file', this.state.file)
-		// });
+		
 		for (const key of Object.keys(this.state.fileCollection)) {
-			formData.append('files', this.state.fileCollection[key]);
+			formData.append('file', this.state.fileCollection[key]);
 		}
 		formData.append('GroupCode', this.state.groupCode);
 		formData.append('PBM', this.state.pbm);
 		
-		 axios.post("http://localhost:8080/api/pdf-parse", formData, {
+		axios.post("http://localhost:8080/api/save-pdf", formData, {
         }).then((res) => res.data
         ).then(res => {
-			const pd=[res[0].planDetails];
-			 pd.push(res[1].planDetails);
-			 console.log(pd);
-			 const prd=[];
-			 for(var i=0;i<res[1].rxDetails.length;i++){
-				prd.push(res[0].rxDetails[i]);
-			 }
-			 for(var i=0;i<res[1].rxDetails.length;i++){
-				prd.push(res[1].rxDetails[i]);
-			 }
+			const pd = [];
+			const prd =[];
+			res.map(re => {
+				pd.push(re.planDetails);
+				prd.push(re.rxDetails);
+			});
+			
+			const planDetails = [].concat(...pd);
+			const rxDetails = [].concat(...prd);
 
 		   this.setState({
 			   msg: "File successfully uploaded", 
 			   isFileUploaded: true, 
-			   planDetails: pd,
-			   rxDetails: prd,
+			   planDetails: planDetails,
+			   rxDetails: rxDetails,
+			   pdfParseResponse: res,
 			});
 		}).catch(err => {
 		   this.setState({error: err});
 	   });
+	}
+
+	handleSaveToDatabase = () => {
+		// const formData = new FormData();
+		// formData.append('benefitsCoverageDetails', this.state.pdfParseResponse);
+		// formData.append('GroupCode', this.state.groupCode);
+		// formData.append('PBM', this.state.pbm);
+		var formData = new FormData();
+		formData.append('GroupCode', this.state.groupCode);
+		// const formData = {
+		// 	// benefitsCoverageDetails: this.state.pdfParseResponse,
+		// 	GroupCode: this.state.groupCode,
+		// 	// PBM: this.state.pbm
+		// };
+
+		axios.post("http://localhost:8080/api/create-table", formData, {}).then(() => {
+			console.log("Success");
+		});
 	}
 
 /*
@@ -135,8 +149,12 @@ class UploadFile extends React.Component {
 							checked={this.state.isClientApproved} 
 							required 
 							onClick={() => this.setState({isClientApproved: !this.state.isClientApproved})}
-						/> Client Approval
-						<button disabled={!this.state.isClientApproved}> Submit to database </button>
+						/> Client Approval &nbsp; &nbsp;
+						<button 
+						disabled={!this.state.isClientApproved} 
+						onClick={this.handleSaveToDatabase}>
+							Submit to database 
+						</button>
 					</div>
 				</>
 			)
@@ -154,7 +172,6 @@ class UploadFile extends React.Component {
 	}
 	
 	render() {
-		console.log(this.state.isFileUploaded);
 		return (
 			<div id="container">
 				
