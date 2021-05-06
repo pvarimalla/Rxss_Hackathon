@@ -6,6 +6,7 @@ public class PlanDetails {
     private String planName;
     private String planId;
     private String brandOverGeneric;
+    private String groupName;
     private String pbm;
     private String formularyDescription;
     private String networkDescription;
@@ -182,6 +183,14 @@ public class PlanDetails {
 
     public void setSpecialConditions(String specialConditions) {
         this.specialConditions = specialConditions;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     @Override
