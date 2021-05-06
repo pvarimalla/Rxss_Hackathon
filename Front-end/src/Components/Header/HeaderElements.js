@@ -43,6 +43,20 @@ export const Bars = styled(FaBars)`
   }
 `;
 
+// export const label = styled.div`
+// display: inline-block;
+//     margin-bottom: .5rem;
+//     box-sizing: border-box;
+//     cursor: default;
+//     font-weight: 300;
+//     font-family: Roboto,sans-serif;
+//     font-size: 1rem;
+//     font-weight: 400;
+//     line-height: 1.5;
+//     color: #4c3e54;
+//     text-align: left;
+// `;
+
 export const NavMenu = styled.div`
   display: flex;
   align-items: center;
@@ -96,8 +110,6 @@ export const NavBtnLink = styled(Link)`
 `;
 
 export const NavLeft = styled.div`
-  // width: 33.333%;
-  // text-align: center;
   position:absolute;
   left:10px;
   top:10px;
@@ -105,13 +117,50 @@ export const NavLeft = styled.div`
 `;
 
 export const NavRight = styled.div`
-width: 33.333%;
-  text-align: right;
- 
-  svg {
-    margin-right: 20px;
-  }
+ width: 63.333%;
+ top:10px;
+ text-align: right;
+   float:right;
+  color: #a841aa; 
+  alignSelf: 'flex-end',
+  line-height: 1.2;
+  padding: 20px 22px;
+
+
 `;
+
+export const Heading = styled.div`
+text-transform: uppercase;
+    font-size: 2rem;
+    margin-bottom: .5rem;
+    font-weight: 300;
+    color: #5f5067;
+    box-sizing: border-box;
+    display: block;
+    top:50px;
+    text-align: left
+    padding: 20px 40px;
+    margin-top: 100x;
+`;
+
+export const rightHeader= styled.div`
+color: #a841aa;
+    text-decoration: none;
+    background-color: transparent;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-align: right;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.2;
+    font-family: Roboto,sans-serif;
+    float: right;
+    
+`;
+
+
+
+
 
 // export const NavBtn= styled.div`
 // &:hover {
@@ -124,6 +173,8 @@ width: 33.333%;
 //   background: #6496ec;
 //   color: white;
 // }`;
+
+
 export const NavBtn= styled.div`
 &:hover {
 -moz-border-radius-topleft: 5px;
