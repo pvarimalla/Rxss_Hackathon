@@ -1,5 +1,3 @@
-
-import React from 'react';
 import './upload.js';
 
 import React,{ Component } from 'react';
@@ -11,7 +9,7 @@ import PlanRxDetails from './planRxDetails';
 import FormControl from '@material-ui/core/FormControl';
 import axios from "axios";
 
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import {
     Paper,
     MenuItem,
@@ -189,18 +187,16 @@ class UploadFile extends React.Component {
 					
 					
 					<div>
-						<NavLink>
-						<button class="details" onClick={()=>this.setState({name:'Plan_Details'})}>Plan details</button>
-						<button class="details" onClick={()=>this.setState({name:'Plan_Rx_Details'})}>Plan Rx details</button>
-						</NavLink>
+						<button class="details" onClick={()=>this.setState({name:'Plan_Details'})}><b>Plan details</b></button>
+						<button class="details" onClick={()=>this.setState({name:'Plan_Rx_Details'})}><b>Plan Rx details</b></button>
 					</div>
-					<div>
+					<div class="clientApproval">
 						<Checkbox 
 							checked={this.state.isClientApproved} 
 							required 
 							onClick={() => this.setState({isClientApproved: !this.state.isClientApproved})}
 						/> Client Approval &nbsp; &nbsp;
-						<button 
+						<button class="submit"
 						disabled={!this.state.isClientApproved} 
 						onClick={this.handleSaveToDatabase}>
 							Submit to database 
@@ -263,8 +259,10 @@ class UploadFile extends React.Component {
 			  </div>
 			  <br></br>
 			  <div>
+
 				{/* <input onChange={this.onFileChange} type="file"></input>*/}
-				 <input type="file" name="fileCollection" onChange={this.onFileChange} multiple/> 
+				 <input type="file" class="chooseFile" name="fileCollection" onChange={this.onFileChange} multiple/> 
+
 				 <button  class="Upload" onClick={this.uploadFileData}>Upload</button> 
 
 				{/* <input onChange={this.onFileChange} type="file"></input>
@@ -281,18 +279,3 @@ class UploadFile extends React.Component {
 }
 
 export default UploadFile;
-
-const NavLink = styled.div`
-  color: #33658a;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  padding: 0 1rem;
-  height: 100%;
-  cursor: pointer;
-
-  &.active {
-    color: #33658a;
-  }
-`;
-

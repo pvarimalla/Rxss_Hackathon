@@ -21,11 +21,30 @@ h1{
 
  }
  button.Upload{
-	color: #fff;
-	border: 1px solid #dee2e6!important;
-	color: #fff;
-    background-color: #33658a;
-	border-color: #33658a;
+	display: flex; 
+    display:inline-block;
+    padding:0.3em 1.2em;
+    margin:0 0.3em 0.3em 0;
+    /* box-sizing: border-box; */
+    text-decoration:none;
+    font-weight:300;
+    padding-top: 7px;
+    padding-bottom: 10px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-right: 0%;
+	width: 150px;
+	height: 40px;
+    border-radius:0.1em;
+    color:white;
+    background-color:#33658a;
+    text-align:center;
+    border-radius:0.3em;
+    border-color: #e5e5e5!important;
+    font-family: inherit;
+    font-size: inherit;
+	line-height: inherit;
+	
  }
 
 body{
@@ -35,14 +54,49 @@ body{
     font-weight: 400;
     line-height: 1.5;
     color: #4c3e54;
-    text-align: left;
-    background-color: #fff;
+    text-align: center;
+	background-color: #fff;
+
+	
 }
 .Upload {
   font-weight: 3000;
   size: 400px;
   font-size: 16px;
   width: 100px;
-  heigth: 150px;
+  height: 30px;
+  color: white;
+  padding-left: 10px;
+  font-family: inherit;
+    font-size: inherit;
+	line-height: inherit;
+	border-radius:0.3em;
+	border-color: #e5e5e5!important;
+	box-sizing: border-box;
+	display: flex; 
+    display:inline-block;
+  
 }
 
+.chooseFile{
+
+		/* box-shadow: 0 2px 2px 0 rgb(0 0 0 / 10%); */
+		border-radius: 1px;
+		padding: .375rem 2.15rem;
+		color: #168;
+    	/* background-color: #e5f9fe; */
+		border-color: #e5f9fe;
+		box-sizing: border-box;
+		font-family: inherit;
+    	font-size: 18px;
+		line-height: inherit;
+		padding-left: 10px;
+		height: 75px;
+
+}
+
+label{
+	padding-top: 10px;
+	/* margin-top: 10px; */
+
+}

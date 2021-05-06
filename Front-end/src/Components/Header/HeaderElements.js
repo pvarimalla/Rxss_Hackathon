@@ -120,9 +120,11 @@ export const NavLeft = styled.div`
 
 export const NavRight = styled.div`
  width: 63.333%;
-text-align: right;
+  text-align: right;
   float:right;
   color: #a841aa;
+  // padding-left: 800px;
+  
   
 `;
 
@@ -130,16 +132,16 @@ export const Heading = styled.div`
 text-transform: uppercase;
     font-size: 2rem;
     margin-bottom: .5rem;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.2;
     color: #5f5067;
     box-sizing: border-box;
     display: block;
-    font-size: 2em;
     margin-block-start: 0.67em;
     margin-block-end: 0.67em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
+    padding-left: 0%;
 `;
 
 export const rightHeader= styled.div`
