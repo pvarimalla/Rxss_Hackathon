@@ -43,19 +43,19 @@ export const Bars = styled(FaBars)`
   }
 `;
 
-export const label = styled.div`
-display: inline-block;
-    margin-bottom: .5rem;
-    box-sizing: border-box;
-    cursor: default;
-    font-weight: 300;
-    font-family: Roboto,sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #4c3e54;
-    text-align: left;
-`;
+// export const label = styled.div`
+// display: inline-block;
+//     margin-bottom: .5rem;
+//     box-sizing: border-box;
+//     cursor: default;
+//     font-weight: 300;
+//     font-family: Roboto,sans-serif;
+//     font-size: 1rem;
+//     font-weight: 400;
+//     line-height: 1.5;
+//     color: #4c3e54;
+//     text-align: left;
+// `;
 
 export const NavMenu = styled.div`
   display: flex;
@@ -110,8 +110,6 @@ export const NavBtnLink = styled(Link)`
 `;
 
 export const NavLeft = styled.div`
-  // width: 33.333%;
-  // text-align: center;
   position:absolute;
   left:10px;
   top:10px;
@@ -120,10 +118,15 @@ export const NavLeft = styled.div`
 
 export const NavRight = styled.div`
  width: 63.333%;
-text-align: right;
-  float:right;
-  color: #a841aa;
-  
+ top:10px;
+ text-align: right;
+   float:right;
+  color: #a841aa; 
+  alignSelf: 'flex-end',
+  line-height: 1.2;
+  padding: 20px 22px;
+
+
 `;
 
 export const Heading = styled.div`
@@ -131,15 +134,13 @@ text-transform: uppercase;
     font-size: 2rem;
     margin-bottom: .5rem;
     font-weight: 300;
-    line-height: 1.2;
     color: #5f5067;
     box-sizing: border-box;
     display: block;
-    font-size: 2em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
+    top:50px;
+    text-align: left
+    padding: 20px 40px;
+    margin-top: 100x;
 `;
 
 export const rightHeader= styled.div`
@@ -153,6 +154,7 @@ color: #a841aa;
     font-weight: 300;
     line-height: 1.2;
     font-family: Roboto,sans-serif;
+    float: right;
     
 `;
 
@@ -171,6 +173,8 @@ color: #a841aa;
 //   background: #6496ec;
 //   color: white;
 // }`;
+
+
 export const NavBtn= styled.div`
 &:hover {
 -moz-border-radius-topleft: 5px;

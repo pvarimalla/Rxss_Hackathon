@@ -46,3 +46,8 @@ body{
   heigth: 150px;
 }
 
+ label {
+  display:block;
+  align-items: left;
+  text-align: left;
+}
