@@ -25,6 +25,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+
 import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
 import static java.time.temporal.TemporalAdjusters.lastDayOfYear;
 
@@ -105,6 +107,8 @@ public class HackathonController {
                 if (parsedText != null && !parsedText.isEmpty()) {
 
                     PlanDetails newPlan = new PlanDetails();
+
+                    newPlan.setGroupName(GroupCode);
 
                     String[] split = parsedText.split("Coverage Period");
                     String remainingText = split[1];
@@ -222,11 +226,17 @@ public class HackathonController {
                                 newRxDetailsRetail.setPlanId(planNameSplit[0].substring(10).trim().replace('–','-'));
                                 newRxDetailsRetail.setPlanName(planNameSplit[0].substring(10).trim().replace('–','-'));
                                 newRxDetailsRetail.setPharmacyTier("Mchoice");
+                                newRxDetailsRetail.setGroupName(GroupCode);
+                                newRxDetailsRetail.setCoverageBeginDate(coverageBeginPeriod.toString());
+                                newRxDetailsRetail.setCoverageEndDate(coverageEndPeriod.toString());
 
                                 RxDetails newRxDetailsInNetwork = new RxDetails();
                                 newRxDetailsInNetwork.setDrugTier(drugTires[i]);
                                 newRxDetailsInNetwork.setPlanId(planNameSplit[0].substring(10).trim().replace('–','-'));
                                 newRxDetailsInNetwork.setPlanName(planNameSplit[0].substring(10).trim().replace('–','-'));
+                                newRxDetailsInNetwork.setGroupName(GroupCode);
+                                newRxDetailsInNetwork.setCoverageBeginDate(coverageBeginPeriod.toString());
+                                newRxDetailsInNetwork.setCoverageEndDate(coverageEndPeriod.toString());
                                 if(!drugTires[i].contains("Specialty")) {
                                     newRxDetailsInNetwork.setPharmacyTier("in Network");
                                     newRxDetailsInNetwork.setDrugTier(drugTires[i]);
@@ -279,6 +289,9 @@ public class HackathonController {
                                 newRxDetailsMailOrder.setPlanId(planNameSplit[0].substring(10).trim().replace('–','-'));
                                 newRxDetailsMailOrder.setPlanName(planNameSplit[0].substring(10).trim().replace('–','-'));
                                 newRxDetailsMailOrder.setPharmacyTier("MailOrder");
+                                newRxDetailsMailOrder.setGroupName(GroupCode);
+                                newRxDetailsMailOrder.setCoverageBeginDate(coverageBeginPeriod.toString());
+                                newRxDetailsMailOrder.setCoverageEndDate(coverageEndPeriod.toString());
 
 
                                 newRxDetailsMailOrder.setDeductiblePaidBeforeCopay(deductiblePaidBeforeCopay);
@@ -344,6 +357,9 @@ public class HackathonController {
                                 newRxDetailsPrev.setCopay(listOfRxDetails.get(k).getCopay());
                                 newRxDetailsPrev.setCoinsuranceMaxCost(listOfRxDetails.get(k).getCoinsuranceMaxCost());
                                 newRxDetailsPrev.setCoinsuranceMinCost(listOfRxDetails.get(k).getCoinsuranceMinCost());
+                                newRxDetailsPrev.setGroupName(listOfRxDetails.get(k).getGroupName());
+                                newRxDetailsPrev.setCoverageEndDate(listOfRxDetails.get(k).getCoverageEndDate());
+                                newRxDetailsPrev.setCoverageBeginDate(listOfRxDetails.get(k).getCoverageBeginDate());
 
                                 System.out.println("List of Prev Rx Details size " + newRxDetailsPrev);
 
@@ -366,6 +382,9 @@ public class HackathonController {
                                 newRxDetailsACA.setCopay("0");
                                 newRxDetailsACA.setDeductiblePaidBeforeCopay(false);
                                 newRxDetailsACA.setHierarcy(null);
+                                newRxDetailsACA.setCoverageBeginDate(listOfRxDetails.get(a).getCoverageBeginDate());
+                                newRxDetailsACA.setCoverageEndDate(listOfRxDetails.get(a).getCoverageEndDate());
+                                newRxDetailsACA.setGroupName(listOfRxDetails.get(a).getGroupName());
                                 listOfRxDetails.add(newRxDetailsACA);
                             }
 
@@ -495,8 +514,8 @@ public class HackathonController {
             for (int k = 0; k < arrsize; k++) {
                 PdfPlanRxDetails planRxDetails = new PdfPlanRxDetails();
                 planRxDetails.setGroupPrefixCode(GroupCode);
-                planRxDetails.setBenfitBeginning(benefitsCoverageDetails.get(i).getPlanDetails().getCoverageBeginDate());
-                planRxDetails.setBenefitEnd(benefitsCoverageDetails.get(i).getPlanDetails().getCoverageEndDate());
+                planRxDetails.setBenfitBeginning(benefitsCoverageDetails.get(i).getRxDetails().get(k).getCoverageBeginDate());
+                planRxDetails.setBenefitEnd(benefitsCoverageDetails.get(i).getRxDetails().get(k).getCoverageEndDate());
                 planRxDetails.setPlanName(benefitsCoverageDetails.get(i).getRxDetails().get(k).getPlanName());
                 planRxDetails.setPlanId(benefitsCoverageDetails.get(i).getRxDetails().get(k).getPlanId());
                 planRxDetails.setDrugTier(benefitsCoverageDetails.get(i).getRxDetails().get(k).getDrugTier());
@@ -525,23 +544,23 @@ public class HackathonController {
     @GetMapping("/create-table")
     public void createPlanDetails(@RequestParam("GroupCode") String GroupCode) {
 
-        System.out.println(planDetailsRepository.checkTableExists(GroupCode));
-        System.out.println(rxDetailsRepository.checkRxTableExists(GroupCode));
+        System.out.println(planDetailsRepository.checkTableExists(GroupCode.toLowerCase()));
+        System.out.println(rxDetailsRepository.checkRxTableExists(GroupCode.toLowerCase()));
 
-        if(planDetailsRepository.checkTableExists(GroupCode)==0){
-            planDetailsRepository.createPlanDetails(GroupCode);
+        if(planDetailsRepository.checkTableExists(GroupCode.toLowerCase())==0){
+            planDetailsRepository.createPlanDetails(GroupCode.toLowerCase());
         }else{
 
             planDetailsRepository.truncatePlanDetails();
-            planDetailsRepository.insertPlanDetails(GroupCode);
+            planDetailsRepository.insertPlanDetails(GroupCode.toLowerCase());
         }
 
-        if(rxDetailsRepository.checkRxTableExists(GroupCode)==0){
+        if(rxDetailsRepository.checkRxTableExists(GroupCode.toLowerCase())==0){
 
-            rxDetailsRepository.createRxDetails(GroupCode);
+            rxDetailsRepository.createRxDetails(GroupCode.toLowerCase());
         }else{
             rxDetailsRepository.truncatePlanRxDetails();
-            rxDetailsRepository.insertPlanRxDetails(GroupCode);
+            rxDetailsRepository.insertPlanRxDetails(GroupCode.toLowerCase());
         }
 
 
