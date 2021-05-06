@@ -5,16 +5,29 @@ import {
   Bars,
   NavMenu,
   NavLeft,
+
+  NavRight,
+  Heading,
+  rightHeader
+
 } from './HeaderElements';
 import logo from "./../../images/RxSavingsLogo.png";
+
 
 const HeaderTest = () => {
   return (
     <>
+ 
       <Nav>
-        <NavLink to='/UploadFile'>
-        <NavLeft><img src={logo} alt='logo'/></NavLeft>
-        </NavLink>
+        {/* <NavLink to='/UploadFile'> */}
+        {/* <NavLeft><img src={logo} alt='logo' /></NavLeft> */}
+        <Heading>
+        PDF TO PLAN DESIGN
+        </Heading>
+        {/* </NavLink> */}
+        <NavRight>Mskiles | Sign Out</NavRight>
+          
+        {/* </rightHeader> */}
         <Bars />
         <NavMenu>
         {/* <NavRight> */}

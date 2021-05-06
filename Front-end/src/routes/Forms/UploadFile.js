@@ -1,16 +1,34 @@
+
+import React from 'react';
+import './upload.js';
+
 import React,{ Component } from 'react';
 import './upload.css';
 import './planInfo.css';
+
 import Plan_Details from './planDetails';
 import PlanRxDetails from './planRxDetails';
 import FormControl from '@material-ui/core/FormControl';
 import axios from "axios";
+
+import TextField from '@material-ui/core/TextField';
+import {
+    Paper,
+    MenuItem,
+    Radio,
+    RadioGroup,
+    FormLabel,
+    FormControlLabel,
+  } from '@material-ui/core';
+import {label} from './upload.js';
+
 import { Checkbox, TextField} from '@material-ui/core';
 import { NavLink as Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Switch from "react-switch";
 import { DragSwitch } from 'react-dragswitch'
 import 'react-dragswitch/dist/index.css'
+
 
 
 class UploadFile extends React.Component {
@@ -204,7 +222,18 @@ class UploadFile extends React.Component {
 	
 	}
 	
-	render() {
+
+	showGroupId = () => {
+		return (
+		  <div> 
+			  <form noValidate autoComplete="off">
+				<TextField required id="standard-required" label="Required" />
+			   </form>
+		   </div>
+		  );
+	  }
+
+	  render() {
 		return (
 			<div id="container">
 				
@@ -212,14 +241,18 @@ class UploadFile extends React.Component {
 				<div>
 				<FormControl >
             
-				  <h4>Enter a group code</h4>
+
+				  <label>Enter a group code</label>
+
 				  <TextField 
 					  required 
 					  id="group-id" 
 					  label="Required" 
 					  onChange={(event)=> this.setState({groupCode: event.target.value})}
 					/>
-                <h4>Enter PBM</h4>
+
+                <label>Enter PBM</label>
+
 				<TextField 
 					required 
 					id="pbm-id" 
@@ -245,7 +278,6 @@ class UploadFile extends React.Component {
 			</div>
 		)
 	}
-
 }
 
 export default UploadFile;
