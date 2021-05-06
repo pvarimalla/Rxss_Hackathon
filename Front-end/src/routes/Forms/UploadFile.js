@@ -1,5 +1,5 @@
 import React from 'react';
-import './upload.css';
+import './upload.js';
 import Plan_Details from './planDetails';
 import PlanRxDetails from './planRxDetails';
 import FormControl from '@material-ui/core/FormControl';
@@ -13,7 +13,7 @@ import {
     FormLabel,
     FormControlLabel,
   } from '@material-ui/core';
-
+import {label} from './upload.js';
 
 class UploadFile extends React.Component {
 	
@@ -143,21 +143,30 @@ class UploadFile extends React.Component {
 		   </div>
 		  );
 	  }
-		render() {
+
+	  render() {
 		return (
 			<div id="container">
 				
 				<h4>{this.state.msg}</h4>
 				<div>
 				<FormControl >
-              <RadioGroup name="Enter details" >
-				  <h4>Enter a group ID</h4>
-				 {this.showGroupId()}
-                <h4>Enter a PBM ID</h4>
-				{this.showGroupId()}
-             </RadioGroup>
-			 <input type="submit" value="Submit" />
-              </FormControl>
+            
+				  <label>Enter a group code</label>
+				  <TextField 
+					  required 
+					  id="group-id" 
+					  label="Required" 
+					  onChange={(event)=> this.setState({groupCode: event.target.value})}
+					/>
+                <label>Enter PBM</label>
+				<TextField 
+					required 
+					id="pbm-id" 
+					label="Required" 
+					onChange={(event)=> this.setState({pbm: event.target.value})}
+				/>
+				</FormControl>
 			  </div>
 			  <br></br>
 			  <div>
@@ -169,20 +178,13 @@ class UploadFile extends React.Component {
 				<button disabled={!this.state.file} onClick={this.uploadFileData}>Upload</button> */}
 
 				
-				{this.state.isFileUploaded ? this.showDropDown() : null} 
+				{this.state.isFileUploaded && this.showDropDown()} 
 				 {this.showButtons()}
 				 </div>
 				 {/* {this.state.name==='Plan_Rx_Details' && <PlanRxDetails rxDetails= { this.state.rxDetails}/>} */}
 			</div>
-			
-
-
-
-
-
 		)
 	}
-
 }
 
 export default UploadFile;

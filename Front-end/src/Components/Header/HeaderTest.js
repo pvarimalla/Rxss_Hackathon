@@ -7,21 +7,30 @@ import {
   NavBtn,
   NavBtnLink,
   NavLeft,
-  NavRight
-
+  NavRight,
+  Heading,
+  rightHeader
 } from './HeaderElements';
 // import logo from "/Users/sjammula/data-mocking/src/RxSavingsLogo.png";
 import logo from "/Users/sjammula/Documents/GitHub/Rxss_Hackathon/Front-end/src/RxSavingsLogo.png";
 import { Button} from 'react-bootstrap'
 
 
+
 const HeaderTest = () => {
   return (
     <>
+ 
       <Nav>
-        <NavLink to='/UploadFile'>
-        <NavLeft><img src={logo} alt='logo'/></NavLeft>
-        </NavLink>
+        {/* <NavLink to='/UploadFile'> */}
+        {/* <NavLeft><img src={logo} alt='logo' /></NavLeft> */}
+        <Heading>
+        PDF TO PLAN DESIGN
+        </Heading>
+        {/* </NavLink> */}
+        <NavRight>Mskiles | Sign Out</NavRight>
+          
+        {/* </rightHeader> */}
         <Bars />
         <NavMenu>
         {/* <NavRight> */}
