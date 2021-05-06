@@ -1,10 +1,16 @@
-import React from 'react';
+import React,{ Component } from 'react';
 import './upload.css';
+import './planInfo.css';
 import Plan_Details from './planDetails';
 import PlanRxDetails from './planRxDetails';
 import FormControl from '@material-ui/core/FormControl';
 import axios from "axios";
 import { Checkbox, TextField} from '@material-ui/core';
+import { NavLink as Link } from 'react-router-dom';
+import styled from 'styled-components';
+import Switch from "react-switch";
+import { DragSwitch } from 'react-dragswitch'
+import 'react-dragswitch/dist/index.css'
 
 
 class UploadFile extends React.Component {
@@ -140,9 +146,35 @@ class UploadFile extends React.Component {
 			   
 			return(
 				<>
+				<div id="planInfo">
+				{/* <div>
+	  <span>Plan Details</span>
+	  <DragSwitch
+		checked={(this.state.checked)}
+		
+        onChange={c => {
+          this.setState({ name:'Plan_Details',checked: c })
+        }}
+      />
+				{/* </div>
+
+				<div> }
+	  <span>Plan Rx Details</span>
+	  <DragSwitch
+		checked={(this.state.checked)}
+		
+        onChange={c => {
+          this.setState({ name:'Plan_Rx_Details',checked: c })
+        }}
+      />
+				</div> */}
+					
+					
 					<div>
-						<button onClick={()=>this.setState({name:'Plan_Details'})}>Plan details</button>
-						<button onClick={()=>this.setState({name:'Plan_Rx_Details'})}>Plan Rx details</button>
+						<NavLink>
+						<button class="details" onClick={()=>this.setState({name:'Plan_Details'})}>Plan details</button>
+						<button class="details" onClick={()=>this.setState({name:'Plan_Rx_Details'})}>Plan Rx details</button>
+						</NavLink>
 					</div>
 					<div>
 						<Checkbox 
@@ -155,6 +187,7 @@ class UploadFile extends React.Component {
 						onClick={this.handleSaveToDatabase}>
 							Submit to database 
 						</button>
+					</div>
 					</div>
 				</>
 			)
@@ -199,7 +232,7 @@ class UploadFile extends React.Component {
 			  <div>
 				{/* <input onChange={this.onFileChange} type="file"></input>*/}
 				 <input type="file" name="fileCollection" onChange={this.onFileChange} multiple/> 
-				 <button  onClick={this.uploadFileData}>Upload</button> 
+				 <button  class="Upload" onClick={this.uploadFileData}>Upload</button> 
 
 				{/* <input onChange={this.onFileChange} type="file"></input>
 				<button disabled={!this.state.file} onClick={this.uploadFileData}>Upload</button> */}
@@ -216,3 +249,18 @@ class UploadFile extends React.Component {
 }
 
 export default UploadFile;
+
+const NavLink = styled.div`
+  color: #33658a;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 1rem;
+  height: 100%;
+  cursor: pointer;
+
+  &.active {
+    color: #33658a;
+  }
+`;
+
