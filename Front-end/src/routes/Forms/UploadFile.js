@@ -34,7 +34,8 @@ class UploadFile extends React.Component {
 			isClientApproved: false,
 			pdfParseResponse: undefined,
 			createImp: false,
-			createImpButton: true
+			createImpButton: true,
+			
 		};
 	}
 	
@@ -95,7 +96,15 @@ class UploadFile extends React.Component {
 		});
 	}
 
-	
+	handleExport= () => {
+		var formData = new FormData();
+		formData.append('GroupCode', this.state.groupCode);
+		formData.append('PBM', this.state.pbm);
+		
+		axios.post("http://localhost:8080/api/export", formData, {}).then(() => {
+			console.log("Success");
+		});
+	}
 		showDropDown= () => {	
 			   
 			return(
@@ -122,7 +131,19 @@ class UploadFile extends React.Component {
 							}}
 						>
 							Submit to database 
+
 						</Button>
+
+						</button>
+						<br></br>
+						<label>
+						<button 
+						
+						onClick={this.handleExport}>
+							Export as CSV
+						</button>
+						</label>
+
 					</div>
 					</div>
 				</>
@@ -198,23 +219,28 @@ class UploadFile extends React.Component {
 		)
 	  }
 
-	render() {
-	return (
-		<div id="container">
-			<h1>{this.state.msg}</h1>
-			<br></br>
-			<label>
-			{this.state.createImpButton && (
-				<Button class="imp" onClick={() => this.setState({createImp: true, createImpButton: false})}>
-					Create New Implementation
-				</Button>	
-			)} 
-			{this.state.createImp? this.createNewImplementation(): null}
-			<br></br>
-			</label>
-		
-		</div>
-	)}
+
+	 
+
+	  render() {
+		return (
+			<div id="container">
+				<h1></h1>
+				<br></br>
+				<h4></h4>
+				<label>
+				
+				
+				<button  class="imp" onClick={() => this.setState({createImp: true, createImpButton: false})}>Create New Implementation</button> 
+				{this.state.createImp? this.createNewImplementation(): null}
+
+				<br></br>
+				</label>
+			
+			</div>
+		)
+	}
+
 }
 
 export default UploadFile;

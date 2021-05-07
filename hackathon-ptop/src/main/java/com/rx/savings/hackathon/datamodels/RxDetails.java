@@ -11,6 +11,9 @@ public class RxDetails {
     private String copay;
     private String hierarcy;
     private Boolean deductiblePaidBeforeCopay;
+    private String coverageBeginDate;
+    private String coverageEndDate;
+    private String groupName;
 
     public RxDetails() {
 
@@ -94,5 +97,29 @@ public class RxDetails {
 
     public void setHierarcy(String hierarcy) {
         this.hierarcy = hierarcy;
+    }
+
+    public String getCoverageBeginDate() {
+        return coverageBeginDate;
+    }
+
+    public void setCoverageBeginDate(String coverageBeginDate) {
+        this.coverageBeginDate = coverageBeginDate;
+    }
+
+    public String getCoverageEndDate() {
+        return coverageEndDate;
+    }
+
+    public void setCoverageEndDate(String coverageEndDate) {
+        this.coverageEndDate = coverageEndDate;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }
