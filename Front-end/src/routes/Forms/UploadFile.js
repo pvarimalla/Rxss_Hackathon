@@ -1,29 +1,17 @@
-
-import React,{ Component } from 'react';
+import React from 'react';
 import './upload.css';
 import './planInfo.css';
 
 import Plan_Details from './planDetails';
 import PlanRxDetails from './planRxDetails';
-import FormControl from '@material-ui/core/FormControl';
 import axios from "axios";
-
+// import LoadingButton from '@material-ui/lab/LoadingButton';
 import TextField from '@material-ui/core/TextField';
 import {
-    Paper,
-    MenuItem,
-    Radio,
-    RadioGroup,
-    FormLabel,
-    FormControlLabel,
+	Input,
+	Button, 
+	Checkbox
   } from '@material-ui/core';
-import {label, NavLink, CreateIm} from './upload.js';
-
-import { Checkbox} from '@material-ui/core';
-
-import styled from 'styled-components';
-
-
 
 class UploadFile extends React.Component {
 	
@@ -123,21 +111,29 @@ class UploadFile extends React.Component {
 				<>
 				<div id="planInfo">			
 					<div>
-						<NavLink>
-						<button class="details" onClick={()=>this.setState({name:'Plan_Details'})}>Plan details</button>
-						<button class="details" onClick={()=>this.setState({name:'Plan_Rx_Details'})}>Plan Rx details</button>
-						</NavLink>
+						<button class="details" onClick={()=>this.setState({name:'Plan_Details'})}><b>Plan details</b></button>
+						<button class="details" onClick={()=>this.setState({name:'Plan_Rx_Details'})}><b>Plan Rx details</b></button>
 					</div>
-					<div>
+					<div class="clientApproval">
 						<Checkbox 
 							checked={this.state.isClientApproved} 
 							required 
 							onClick={() => this.setState({isClientApproved: !this.state.isClientApproved})}
 						/> Client Approval &nbsp; &nbsp;
-						<button 
-						disabled={!this.state.isClientApproved} 
-						onClick={this.handleSaveToDatabase}>
+						<Button
+							variant="contained" 
+							disabled={!this.state.isClientApproved} 
+							onClick={this.handleSaveToDatabase}
+							style={{
+								backgroundColor: "#e5f9fe",
+								color: "#33658a", 
+								opacity: this.state.isClientApproved ? 1 : 0.3
+							}}
+						>
 							Submit to database 
+
+						</Button>
+
 						</button>
 						<br></br>
 						<label>
@@ -147,6 +143,7 @@ class UploadFile extends React.Component {
 							Export as CSV
 						</button>
 						</label>
+
 					</div>
 					</div>
 				</>
@@ -175,36 +172,53 @@ class UploadFile extends React.Component {
 		  );
 	  }
 
-	  createNewImplementation = () =>{
+	  createNewImplementation = () => { 
 		return(
 			<div>
 			<form  noValidate autoComplete="off">	
 				<div>
-				  <label>Enter a group code</label>
-				
-				  <label>
-				  <TextField id="outlined-search" label="Group code" type="search" variant="outlined" size="small"
-				   onChange={(event)=> this.setState({groupCode: event.target.value})} />
-				   </label>
-				   </div>
-				<div>
-                <label>Enter a PBM</label>
-				<label>
-				<TextField id="outlined-search" label="PBM" type="search" variant="outlined" size="small"
-				onChange={(event)=> this.setState({pbm: event.target.value})}/>
-				</label>
+				  
+					<TextField 
+						id="outlined-search" 
+						label="Group code" 
+						type="search" 
+						variant="outlined" 
+						size="small" 
+						placeholder="Enter a Group Code"
+						onChange={(event)=> this.setState({groupCode: event.target.value})} 
+					/>			   
 				</div>
-				</form>
+				<div>
+					<TextField 
+						id="outlined-search" 
+						label="PBM" 
+						type="search" 
+						variant="outlined" 
+						size="small"
+						placeholder="Enter a PBM"
+						onChange={(event)=> this.setState({pbm: event.target.value})}
+					/>
+				</div>
+			</form>
 				<br></br>
-			  <div>
-				 <input type="file" name="fileCollection" onChange={this.onFileChange} multiple/> 
+			  	<div>
+					<input 
+						id="choose-file" 
+						type="file" 
+						class="chooseFile" 
+						name="fileCollection" 
+						onChange={this.onFileChange} 
+						multiple
+					/>
+					<Button></Button>
 				 <button  class="Upload" onClick={this.uploadFileData}>Upload</button> 
 				{this.state.isFileUploaded && this.showDropDown()} 
 				 {this.showButtons()}
-				 </div>
-				 </div>
+				</div>
+				</div>
 		)
 	  }
+
 
 	 
 
@@ -226,8 +240,7 @@ class UploadFile extends React.Component {
 			</div>
 		)
 	}
+
 }
 
 export default UploadFile;
-
-
