@@ -111,10 +111,9 @@ const PlanDetails = ({details}) => {
 
   return (
     <div className="App">
-      <label>
+      
       <Grid container spacing={1}>
-          <Grid item xs={3}></Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
           <div>
             {iserror && 
               <Alert severity="error">
@@ -186,7 +185,7 @@ const PlanDetails = ({details}) => {
           </Grid>
           <Grid item xs={3}></Grid>
         </Grid>
-        </label>
+        
     </div>
   );
 }
