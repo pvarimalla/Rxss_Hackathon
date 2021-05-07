@@ -36,23 +36,23 @@ public interface RxDetailsRepository extends JpaRepository<PdfPlanRxDetails, Int
     @Transactional
     @Modifying
     @Query(value = "update staging_odyssey.pdf_plan_rx_details\n" +
-            "set Coinsurance = '10'\n" +
-            "where Plan_Name like '%Actives%' and Drug_Tier = 'Specialty Generic';", nativeQuery = true)
-    void updateSpecialtyGeneric();
-
-    @Transactional
-    @Modifying
-    @Query(value = "update staging_odyssey.pdf_plan_rx_details\n" +
-            "set Coinsurance = '15'\n" +
-            "where Plan_Name like '%Actives%' and Drug_Tier = 'Specialty Brand Preferred';", nativeQuery = true)
-    void updateSpecialtyBrandPreferred();
-
-    @Transactional
-    @Modifying
-    @Query(value = "update staging_odyssey.pdf_plan_rx_details\n" +
             "set Coinsurance = '20'\n" +
-            "where Plan_Name like '%Actives%' and Drug_Tier = 'Specialty Brand Non Preferred';", nativeQuery = true)
-    void updateSpecialtyBrandNonPreferred();
+            "where Plan_Name like '%Actives%' and Drug_Tier = 'Generic' and Pharmacy_Tier =  'in Network';", nativeQuery = true)
+    void updateGeneric();
+
+//    @Transactional
+//    @Modifying
+//    @Query(value = "update staging_odyssey.pdf_plan_rx_details\n" +
+//            "set Coinsurance = '15'\n" +
+//            "where Plan_Name like '%Actives%' and Drug_Tier = 'Specialty Brand Preferred';", nativeQuery = true)
+//    void updateSpecialtyBrandPreferred();
+//
+//    @Transactional
+//    @Modifying
+//    @Query(value = "update staging_odyssey.pdf_plan_rx_details\n" +
+//            "set Coinsurance = '20'\n" +
+//            "where Plan_Name like '%Actives%' and Drug_Tier = 'Specialty Brand Non Preferred';", nativeQuery = true)
+//    void updateSpecialtyBrandNonPreferred();
 
 
     @Transactional

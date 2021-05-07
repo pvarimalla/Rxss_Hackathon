@@ -560,10 +560,10 @@ public class HackathonController {
 
     @GetMapping("/update-table")
     public void updatePlanRxDetails() {
-        rxDetailsRepository.updateSpecialtyGeneric();
-        rxDetailsRepository.updateSpecialtyBrandPreferred();
-        ;
-        rxDetailsRepository.updateSpecialtyBrandNonPreferred();
+        rxDetailsRepository.updateGeneric();
+//        rxDetailsRepository.updateSpecialtyBrandPreferred();
+//        ;
+//        rxDetailsRepository.updateSpecialtyBrandNonPreferred();
         System.out.println("Updated Specialty tiers");
     }
 
@@ -772,10 +772,12 @@ public class HackathonController {
                     row_2.createCell((short) 12).setCellValue(benefitsCoverageDetails.get(i).getRxDetails().get(k).getHierarcy());
                 }
 
+                String fileName = "/Users/sjammula/Downloads/tst_plan_design1.xlsx";
 
-                FileOutputStream fileOut = new FileOutputStream("pdf_data3.csv");
+                FileOutputStream fileOut = new FileOutputStream(fileName);
                 hwb.write(fileOut);
                 fileOut.close();
+                hwb.close();
 
 
             }
