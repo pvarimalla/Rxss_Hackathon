@@ -1,33 +1,17 @@
-import './upload.js';
-
-import React,{ Component } from 'react';
+import React from 'react';
 import './upload.css';
 import './planInfo.css';
 
 import Plan_Details from './planDetails';
 import PlanRxDetails from './planRxDetails';
-import FormControl from '@material-ui/core/FormControl';
 import axios from "axios";
-
-// import TextField from '@material-ui/core/TextField';
+// import LoadingButton from '@material-ui/lab/LoadingButton';
+import TextField from '@material-ui/core/TextField';
 import {
-    Paper,
-    MenuItem,
-    Radio,
-    RadioGroup,
-    FormLabel,
-    FormControlLabel,
+	Input,
+	Button, 
+	Checkbox
   } from '@material-ui/core';
-import {label} from './upload.js';
-
-import { Checkbox, TextField} from '@material-ui/core';
-import { NavLink as Link } from 'react-router-dom';
-import styled from 'styled-components';
-import Switch from "react-switch";
-import { DragSwitch } from 'react-dragswitch'
-import 'react-dragswitch/dist/index.css'
-
-
 
 class UploadFile extends React.Component {
 	
@@ -49,19 +33,15 @@ class UploadFile extends React.Component {
 			pbm: undefined,
 			isClientApproved: false,
 			pdfParseResponse: undefined,
+			createImp: false,
+			createImpButton: true
 		};
-		// let data = new FormData();
 	}
 	
-	//state= {showDropDown: false}
+	
 	onFileChange = (event) => {
-// 		const files = event.target.files;
-// 		for (let i = 0; i < files.length; i++) {
-//     	formData.append(`file[${i}]`, files[i])
-// }
 		this.setState({
 			 fileCollection: event.target.files
-			// file: event.target.files[0]
 		});
 	}
 	
@@ -108,84 +88,19 @@ class UploadFile extends React.Component {
 	}
 
 	handleSaveToDatabase = () => {
-		// const formData = new FormData();
-		// formData.append('benefitsCoverageDetails', this.state.pdfParseResponse);
-		// formData.append('GroupCode', this.state.groupCode);
-		// formData.append('PBM', this.state.pbm);
 		var formData = new FormData();
 		formData.append('GroupCode', this.state.groupCode);
-		// const formData = {
-		// 	// benefitsCoverageDetails: this.state.pdfParseResponse,
-		// 	GroupCode: this.state.groupCode,
-		// 	// PBM: this.state.pbm
-		// };
-
 		axios.post("http://localhost:8080/api/create-table", formData, {}).then(() => {
 			console.log("Success");
 		});
 	}
 
-/*
-		fetch('http://localhost:8080/api/pdf-parse', {
-			mode: 'no-cors',
-			// enctype: "form-data",
-			method: 'POST',
-			body: formData
-		})  .then(resp => resp.json())
-        .then(resp => {
-			 console.log(resp.json());
-			this.setState({msg: "File successfully uploaded", isFileUploaded: true, planDetails: resp.planDetails, rxDetails: resp.rxDetails});
-			console.log(resp.json())
-		  console.log(resp.planDetails)
-		  console.log(resp.rxDetails)
-		}).catch(err => {
-			this.setState({error: err});
-		});*/
-		
-
-	// handlechange= event => {
-	// 	this.setState({ name: event.target.value });
-	// 	console.log("entered handleChange"+event.target.value);
-	// // 	this.setState({value: event.target.value});
-	// // if(event.target.value==1 )
-	// // 	{<Plan_Details details={this.state.planDetails}/>}
-	// // else
-	// // 	{ <PlanRxDetails rxDetails= { this.state.rxDetails}/>}
-	// }
-	
-	// handleChange = event => {
-	// 	// this.setState({ name: event.target.value });
-	// 	return <Plan_Details details={this.state.planDetails}/>
-	//   };
 	
 		showDropDown= () => {	
 			   
 			return(
 				<>
-				<div id="planInfo">
-				{/* <div>
-	  <span>Plan Details</span>
-	  <DragSwitch
-		checked={(this.state.checked)}
-		
-        onChange={c => {
-          this.setState({ name:'Plan_Details',checked: c })
-        }}
-      />
-				{/* </div>
-
-				<div> }
-	  <span>Plan Rx Details</span>
-	  <DragSwitch
-		checked={(this.state.checked)}
-		
-        onChange={c => {
-          this.setState({ name:'Plan_Rx_Details',checked: c })
-        }}
-      />
-				</div> */}
-					
-					
+				<div id="planInfo">			
 					<div>
 						<button class="details" onClick={()=>this.setState({name:'Plan_Details'})}><b>Plan details</b></button>
 						<button class="details" onClick={()=>this.setState({name:'Plan_Rx_Details'})}><b>Plan Rx details</b></button>
@@ -196,11 +111,18 @@ class UploadFile extends React.Component {
 							required 
 							onClick={() => this.setState({isClientApproved: !this.state.isClientApproved})}
 						/> Client Approval &nbsp; &nbsp;
-						<button class="submit"
-						disabled={!this.state.isClientApproved} 
-						onClick={this.handleSaveToDatabase}>
+						<Button
+							variant="contained" 
+							disabled={!this.state.isClientApproved} 
+							onClick={this.handleSaveToDatabase}
+							style={{
+								backgroundColor: "#e5f9fe",
+								color: "#33658a", 
+								opacity: this.state.isClientApproved ? 1 : 0.3
+							}}
+						>
 							Submit to database 
-						</button>
+						</Button>
 					</div>
 					</div>
 				</>
@@ -229,53 +151,70 @@ class UploadFile extends React.Component {
 		  );
 	  }
 
-	  render() {
-		return (
-			<div id="container">
-				
-				<h4>{this.state.msg}</h4>
+	  createNewImplementation = () => { 
+		return(
+			<div>
+			<form  noValidate autoComplete="off">	
 				<div>
-				<FormControl >
-            
-
-				  <label>Enter a group code</label>
-
-				  <TextField 
-					  required 
-					  id="group-id" 
-					  label="Required" 
-					  onChange={(event)=> this.setState({groupCode: event.target.value})}
+				  
+					<TextField 
+						id="outlined-search" 
+						label="Group code" 
+						type="search" 
+						variant="outlined" 
+						size="small" 
+						placeholder="Enter a Group Code"
+						onChange={(event)=> this.setState({groupCode: event.target.value})} 
+					/>			   
+				</div>
+				<div>
+					<TextField 
+						id="outlined-search" 
+						label="PBM" 
+						type="search" 
+						variant="outlined" 
+						size="small"
+						placeholder="Enter a PBM"
+						onChange={(event)=> this.setState({pbm: event.target.value})}
 					/>
-
-                <label>Enter PBM</label>
-
-				<TextField 
-					required 
-					id="pbm-id" 
-					label="Required" 
-					onChange={(event)=> this.setState({pbm: event.target.value})}
-				/>
-				</FormControl>
-			  </div>
-			  <br></br>
-			  <div>
-
-				{/* <input onChange={this.onFileChange} type="file"></input>*/}
-				 <input type="file" class="chooseFile" name="fileCollection" onChange={this.onFileChange} multiple/> 
-
+				</div>
+			</form>
+				<br></br>
+			  	<div>
+					<input 
+						id="choose-file" 
+						type="file" 
+						class="chooseFile" 
+						name="fileCollection" 
+						onChange={this.onFileChange} 
+						multiple
+					/>
+					<Button></Button>
 				 <button  class="Upload" onClick={this.uploadFileData}>Upload</button> 
-
-				{/* <input onChange={this.onFileChange} type="file"></input>
-				<button disabled={!this.state.file} onClick={this.uploadFileData}>Upload</button> */}
-
-				
 				{this.state.isFileUploaded && this.showDropDown()} 
 				 {this.showButtons()}
-				 </div>
-				 {/* {this.state.name==='Plan_Rx_Details' && <PlanRxDetails rxDetails= { this.state.rxDetails}/>} */}
-			</div>
+				</div>
+				</div>
 		)
-	}
+	  }
+
+	render() {
+	return (
+		<div id="container">
+			<h1>{this.state.msg}</h1>
+			<br></br>
+			<label>
+			{this.state.createImpButton && (
+				<Button class="imp" onClick={() => this.setState({createImp: true, createImpButton: false})}>
+					Create New Implementation
+				</Button>	
+			)} 
+			{this.state.createImp? this.createNewImplementation(): null}
+			<br></br>
+			</label>
+		
+		</div>
+	)}
 }
 
 export default UploadFile;

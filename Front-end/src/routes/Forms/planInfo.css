@@ -44,7 +44,7 @@
         border: initial;
     } */
 
-    .submit[enabled]{
+    .submit{
         font-weight: 3000;
         size: 400px;
         font-size: 16px;
@@ -63,7 +63,7 @@
           display:inline-block;
           
         
-      } 
+      }
 
       .submit[disabled]{
           background-color:transparent;

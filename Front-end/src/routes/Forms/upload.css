@@ -78,12 +78,13 @@ body{
   
 }
 
-.chooseFile{
+
+#choose-file {
 
 		/* box-shadow: 0 2px 2px 0 rgb(0 0 0 / 10%); */
-		border-radius: 1px;
-		padding: .375rem 2.15rem;
-		color: #168;
+		border-radius: 1px !important;
+		padding: .375rem 2.15rem !important;
+		color: #168 !important;
     	/* background-color: #e5f9fe; */
 		border-color: #e5f9fe;
 		box-sizing: border-box;
@@ -95,8 +96,39 @@ body{
 
 }
 
-label{
-	padding-top: 10px;
-	/* margin-top: 10px; */
-
+ label {
+  display:block;
+  align-items: left;
+  text-align: left;
 }
+
+.imp{
+    /* background-color:transparent;*/
+    display: flex; 
+     display:inline-block;
+     padding:0.3em 1.2em;
+     margin:0 0.3em 0.3em 0;
+     box-sizing: border-box;
+     text-decoration:none;
+     font-family:'Roboto',sans-serif;
+     font-weight:300;
+     padding-top: 7px;
+     padding-bottom: 7px;
+     margin-top: 2%;
+     margin-bottom: 2%;
+     margin-right: 0%;
+     width: 250px;
+     border-radius:0.3em;
+     color:#e5f9fe;
+     background-color:#33658a;
+     text-align:center;
+     transition: all 0.2s;
+     border-color: #e5e5e5!important;
+     font-family: inherit;
+     font-size: inherit;
+     line-height: inherit;
+     }
+     .details:hover{
+     background-color:#33658a;
+     color:white ;
+     }
