@@ -8,10 +8,12 @@ import axios from "axios";
 // import LoadingButton from '@material-ui/lab/LoadingButton';
 import TextField from '@material-ui/core/TextField';
 import {
-	Input,
+	Grid,
+	CircularProgress,
 	Button, 
-	Checkbox
+	Checkbox,
   } from '@material-ui/core';
+import { Gif } from '@material-ui/icons';
 
 class UploadFile extends React.Component {
 	
@@ -35,7 +37,9 @@ class UploadFile extends React.Component {
 			pdfParseResponse: undefined,
 			createImp: false,
 			createImpButton: true,
-			
+			showParsePdfLoadingState: false,
+			showSaveToDbLoadingState: false,
+			isSavedToDb: false,
 		};
 	}
 	
@@ -48,14 +52,15 @@ class UploadFile extends React.Component {
 	
 	uploadFileData = (event) => {
 		event.preventDefault();
-		this.setState({msg: ''});
 	
-		 var formData = new FormData();
+		var formData = new FormData();
   
 		 if (!this.state.groupCode || !this.state.pbm) {
 			 alert("Please enter all fields");
 			 return;
 		 }
+
+		this.setState({msg: '', showParsePdfLoadingState: true});
 		
 		for (const key of Object.keys(this.state.fileCollection)) {
 			formData.append('file', this.state.fileCollection[key]);
@@ -82,6 +87,7 @@ class UploadFile extends React.Component {
 			   planDetails: planDetails,
 			   rxDetails: rxDetails,
 			   pdfParseResponse: res,
+			   showParsePdfLoadingState: false,
 			});
 		}).catch(err => {
 		   this.setState({error: err});
@@ -89,15 +95,24 @@ class UploadFile extends React.Component {
 	}
 
 	handleSaveToDatabase = () => {
+		this.setState({showSaveToDbLoadingState: true});
 		var formData = new FormData();
 		formData.append('GroupCode', this.state.groupCode);
 		axios.post("http://localhost:8080/api/create-table", formData, {}).then(() => {
-			console.log("Success");
+			this.setState({showSaveToDbLoadingState: false, isSavedToDb: true});
+			alert("Success, saved to database");
+		}).catch(() => {
+			alert("Something went wrong with saving to database.");
+			this.setState({isSavedToDb: false});
 		});
 	}
 
 	handleExport= () => {
 		var formData = new FormData();
+		for (const key of Object.keys(this.state.fileCollection)) {
+			formData.append('file', this.state.fileCollection[key]);
+		}
+		console.log(this.state.fileCollection);
 		formData.append('GroupCode', this.state.groupCode);
 		formData.append('PBM', this.state.pbm);
 		
@@ -105,8 +120,7 @@ class UploadFile extends React.Component {
 			console.log("Success");
 		});
 	}
-		showDropDown= () => {	
-			   
+		showDropDown= () => {
 			return(
 				<>
 				<div id="planInfo">			
@@ -120,32 +134,31 @@ class UploadFile extends React.Component {
 							required 
 							onClick={() => this.setState({isClientApproved: !this.state.isClientApproved})}
 						/> Client Approval &nbsp; &nbsp;
-						<Button
-							variant="contained" 
-							disabled={!this.state.isClientApproved} 
-							onClick={this.handleSaveToDatabase}
-							style={{
-								backgroundColor: "#e5f9fe",
-								color: "#33658a", 
-								opacity: this.state.isClientApproved ? 1 : 0.3
-							}}
-						>
-							Submit to database 
-
-						</Button>
-
-						</button>
+						{
+							this.state.showSaveToDbLoadingState 
+							? <CircularProgress /> 
+							: !this.state.isSavedToDb && <Button
+								variant="contained" 
+								disabled={!this.state.isClientApproved} 
+								onClick={this.handleSaveToDatabase}
+								style={{
+									backgroundColor: "#e5f9fe",
+									color: "#33658a", 
+									opacity: this.state.isClientApproved ? 1 : 0.3
+								}}
+								>
+									Submit to database 
+								</Button>
+						}
+						
 						<br></br>
 						<label>
-						<button 
-						
-						onClick={this.handleExport}>
-							Export as CSV
-						</button>
+						<Button style={{backgroundColor: "#e5f9fe" , color: "#33658a" }} onClick={this.handleExport} variant="contained">Export as CSV</Button>
+												
 						</label>
 
 					</div>
-					</div>
+				</div>
 				</>
 			)
 		}
@@ -201,7 +214,8 @@ class UploadFile extends React.Component {
 				</div>
 			</form>
 				<br></br>
-			  	<div>
+				<Grid container alignItems="center">
+					<Grid item>
 					<input 
 						id="choose-file" 
 						type="file" 
@@ -210,11 +224,29 @@ class UploadFile extends React.Component {
 						onChange={this.onFileChange} 
 						multiple
 					/>
-					<Button></Button>
+					</Grid>
+					<Grid item>
+						{this.state.showParsePdfLoadingState ? <CircularProgress /> : <button class="Upload" onClick={this.uploadFileData}>Upload</button>} 
+					</Grid>
+					<Grid item xs={12}>
+						{this.state.isFileUploaded && this.showDropDown()} 
+						{this.showButtons()}
+					</Grid>
+				</Grid>
+			  	{/* <div>
+					<input 
+						id="choose-file" 
+						type="file" 
+						class="chooseFile" 
+						name="fileCollection" 
+						onChange={this.onFileChange} 
+						multiple
+					/>
+					<CircularProgress />
 				 <button  class="Upload" onClick={this.uploadFileData}>Upload</button> 
 				{this.state.isFileUploaded && this.showDropDown()} 
 				 {this.showButtons()}
-				</div>
+				</div> */}
 				</div>
 		)
 	  }
@@ -225,21 +257,19 @@ class UploadFile extends React.Component {
 	  render() {
 		return (
 			<div id="container">
-				<h1></h1>
+				<h1></h1> 
 				<br></br>
-				<h4></h4>
 				<label>
-				
-				
-				<button  class="imp" onClick={() => this.setState({createImp: true, createImpButton: false})}>Create New Implementation</button> 
+				{this.state.createImpButton && (
+					<Button class="imp" onClick={() => this.setState({createImp: true, createImpButton: false})}>
+						Create New Implementation
+					</Button>	
+				)} 
 				{this.state.createImp? this.createNewImplementation(): null}
-
 				<br></br>
 				</label>
-			
 			</div>
-		)
-	}
+		)}
 
 }
 

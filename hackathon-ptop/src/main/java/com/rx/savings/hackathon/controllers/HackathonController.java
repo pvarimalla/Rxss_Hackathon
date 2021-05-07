@@ -378,7 +378,7 @@ public class HackathonController {
                         }
 
 
-                        if (parsedText.contains("Grandfathered")) {
+                        if (!parsedText.contains("Grandfathered")) {
                             String[] ACA_Pharmacy_Tiers = {"in Network", "MailOrder", "Mchoice"};
                             int aca_size = ACA_Pharmacy_Tiers.length;
                             for (int a = 0; a < aca_size; a++) {
@@ -773,7 +773,7 @@ public class HackathonController {
                 }
 
 
-                FileOutputStream fileOut = new FileOutputStream("pdf_data3.csv");
+                FileOutputStream fileOut = new FileOutputStream("/Users/lpittu/Downloads/tst_plandesign.csv");
                 hwb.write(fileOut);
                 fileOut.close();
 

@@ -100,8 +100,8 @@ const PlanRxDetails = ({rxDetails}) => {
     <div className="App">
       
       <Grid container spacing={1}>
-          <Grid item xs={3}></Grid>
-          <Grid item xs={6}>
+          
+          <Grid item xs={12}>
           <div>
             {iserror && 
               <Alert severity="error">
