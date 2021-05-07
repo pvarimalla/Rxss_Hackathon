@@ -23,6 +23,7 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import axios from 'axios'
 import Alert from '@material-ui/lab/Alert';
+import {label, NavLink, CreateIm} from './upload.js';
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -80,29 +81,11 @@ const PlanDetails = ({details}) => {
   const [iserror, setIserror] = useState(false)
   const [errorMessages, setErrorMessages] = useState([])
 
-  // useEffect(() => { 
-  //   api.get("/users")
-  //       .then(res => {               
-  //           setData(res.data.data)
-  //        })
-  //        .catch(error=>{
-  //            console.log("Error")
-  //        })
-  // }, [])
 
   const handleRowUpdate = (newData, oldData, resolve) => {
     //validation
     let errorList = []
-    // if(newData.first_name === ""){
-    //   errorList.push("Please enter first name")
-    // }
-    // if(newData.last_name === ""){
-    //   errorList.push("Please enter last name")
-    // }
-    // if(newData.email === "" || validateEmail(newData.email) === false){
-    //   errorList.push("Please enter a valid email")
-    // }
-    
+  
     const dataUpdate = [...data];
     const index = oldData.tableData.id;
     dataUpdate[index] = newData;
@@ -111,90 +94,24 @@ const PlanDetails = ({details}) => {
     setIserror(false)
     setErrorMessages([])
     
-    // if(errorList.length < 1){
-    //   api.patch("/users/"+newData.id, newData)
-    //   .then(res => {
-    //     const dataUpdate = [...data];
-    //     const index = oldData.tableData.id;
-    //     dataUpdate[index] = newData;
-    //     setData([...dataUpdate]);
-    //     resolve()
-    //     setIserror(false)
-    //     setErrorMessages([])
-    //   })
-    //   .catch(error => {
-    //     setErrorMessages(["Update failed! Server error"])
-    //     setIserror(true)
-    //     resolve()
-        
-    //   })
-    // }else{
-    //   setErrorMessages(errorList)
-    //   setIserror(true)
-    //   resolve()
-
-    // }
+    
     
   }
 
   const handleRowAdd = (newData, resolve) => {
-    //validation
     let errorList = []
-    // if(newData.first_name === undefined){
-    //   errorList.push("Please enter first name")
-    // }
-    // if(newData.last_name === undefined){
-    //   errorList.push("Please enter last name")
-    // }
-    // if(newData.email === undefined || validateEmail(newData.email) === false){
-    //   errorList.push("Please enter a valid email")
-    // }
-
-    // if(errorList.length < 1){ //no error
-    //   api.post("/users", newData)
-    //   .then(res => {
-    //     let dataToAdd = [...data];
-    //     dataToAdd.push(newData);
-    //     setData(dataToAdd);
-    //     resolve()
-    //     setErrorMessages([])
-    //     setIserror(false)
-    //   })
-    //   .catch(error => {
-    //     setErrorMessages(["Cannot add data. Server error!"])
-    //     setIserror(true)
-    //     resolve()
-    //   })
-    // }else{
-    //   setErrorMessages(errorList)
-    //   setIserror(true)
-    //   resolve()
-    // }
-
+ 
     
   }
 
   const handleRowDelete = (oldData, resolve) => {
-    
-    // api.delete("/users/"+oldData.id)
-    //   .then(res => {
-    //     const dataDelete = [...data];
-    //     const index = oldData.tableData.id;
-    //     dataDelete.splice(index, 1);
-    //     setData([...dataDelete]);
-    //     resolve()
-    //   })
-    //   .catch(error => {
-    //     setErrorMessages(["Delete failed! Server error"])
-    //     setIserror(true)
-    //     resolve()
-    //   })
+ 
   }
 
 
   return (
     <div className="App">
-      
+      <label>
       <Grid container spacing={1}>
           <Grid item xs={3}></Grid>
           <Grid item xs={6}>
@@ -207,11 +124,38 @@ const PlanDetails = ({details}) => {
               </Alert>
             }       
           </div>
-            <MaterialTable options={{ paging: false }} style={{ width: 1200,justifyContent: "flex-start", alignItems: "center" }}
+         
+            <MaterialTable options={{ align:"left", paging: false ,
+            //  headerStyle:{backgroundColor:'#33658a', color: '#fff',}}} 
+           
+            headerStyle: {
+              width: 35,
+              whiteSpace: 'nowrap',
+              textAlign: 'left',
+              flexDirection: 'row',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              paddingLeft: 5,
+              paddingRight: 5,
+              backgroundColor: '#33658a',
+              fontWeight: 'bold',
+              fontSize: "18px",
+              height: 100,
+              color: '#fff',
+            },
+            rowStyle: {
+              backgroundColor: '#e5f9fe', 
+              color: '#33658a', // not working! i tried without the !important as well
+              fontWeight: 'bold',
+            },
+          }}
+            style={{ width: 1500, alignItems: "left" }}
+            
             title="Plan Details Information"
               columns={columns}
               data={details}
               icons={tableIcons}
+              
               editable={{
                 
                 onRowUpdate: (newData, oldData) =>
@@ -236,10 +180,13 @@ const PlanDetails = ({details}) => {
                     handleRowDelete(oldData, resolve)
                   }),
               }}
+              
             />
+            
           </Grid>
           <Grid item xs={3}></Grid>
         </Grid>
+        </label>
     </div>
   );
 }

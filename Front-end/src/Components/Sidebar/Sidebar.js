@@ -207,7 +207,7 @@ import { FaList, FaRegHeart } from "react-icons/fa";
 import { FiHome, FiLogOut, FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi";
 import { RiPencilLine } from "react-icons/ri";
 import { BiCog } from "react-icons/bi";
-import iconlogo from "/Users/sjammula/Documents/GitHub/Rxss_Hackathon/Front-end/src/icons.png"
+import iconlogo from "/Users/lpittu/Rxss_Hackathon/Front-end/src/icons.png";
 
 //import sidebar css from react-pro-sidebar module and our custom css 
 import "react-pro-sidebar/dist/css/styles.css";
